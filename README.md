@@ -24,5 +24,5 @@ Install-Package System.IdentityModel.Tokens.Jwt -Version 8.0.2
 Install-Package Swashbuckle.AspNetCore -Version 6.6.2
 
 ```
-
+databse mongodb main khud hi bn jy ga aur initial admin password (nexfitadm) email(admin@nexfit.com) hai
 Let's pull the changes and start building our features!
