@@ -1,0 +1,92 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<style>
+    body {
+        background-color: #0b0f19 !important;
+    }
+
+    .login-card {
+        background: #111625 !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 16px !important;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .form-dark-input {
+        background-color: #1a2035 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #ffffff !important;
+        border-radius: 8px !important;
+        padding: 12px 14px;
+        transition: all 0.2s ease;
+    }
+
+        .form-dark-input:focus {
+            background-color: #1d243f !important;
+            border-color: #10b981 !important; /* Matches green login button flow */
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15) !important;
+            color: #ffffff !important;
+        }
+
+    .btn-gradient-success {
+        background: linear-gradient(135deg, #10b981, #059669) !important;
+        color: white !important;
+        border: none !important;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        padding: 12px;
+        transition: all 0.2s ease;
+    }
+
+        .btn-gradient-success:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25);
+        }
+
+    .login-link {
+        color: #10b981 !important;
+        transition: all 0.2s ease;
+    }
+
+        .login-link:hover {
+            color: #34d399 !important;
+            text-decoration: underline !important;
+        }
+</style>
+
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="card login-card text-white w-100" style="max-width: 450px;">
+        <div class="card-body p-4 p-sm-5">
+
+            <h2 class="text-center mb-2 fw-bold text-white" style="letter-spacing: -0.5px;">Welcome Back</h2>
+            <p class="text-muted text-center small mb-4">Access your AI telemetry cluster and ecosystem modules</p>
+
+            <form asp-action="Login" method="post">
+                <div class="text-danger small mb-3 fw-semibold" asp-validation-summary="ModelOnly"></div>
+
+                <div class="mb-3">
+                    <label class="form-label text-secondary small fw-bold text-uppercase tracking-wider" style="letter-spacing: 0.5px;">Email Address</label>
+                    <input type="email" name="email" class="form-control form-dark-input shadow-none" placeholder="name@example.com" required />
+                </div>
+
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label class="form-label text-secondary small fw-bold text-uppercase tracking-wider m-0" style="letter-spacing: 0.5px;">Password</label>
+                    </div>
+                    <input type="password" name="password" class="form-control form-dark-input shadow-none" placeholder="••••••••" required />
+                </div>
+
+                <button type="submit" class="btn btn-gradient-success w-100 rounded-2 transition-all d-flex align-items-center justify-content-center gap-2">
+                    <i class="bi bi-box-arrow-in-right fs-5"></i> Secure Sign In
+                </button>
+            </form>
+
+            <div class="text-center mt-4 border-top border-secondary border-opacity-10 pt-3">
+                <p class="text-muted small mb-0">New to NexFit? <a asp-action="Register" class="login-link text-decoration-none fw-bold">Register here</a></p>
+            </div>
+
+        </div>
+    </div>
+</div>

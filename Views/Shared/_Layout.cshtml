@@ -3,47 +3,167 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - NexFit</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/NexFit.styles.css" asp-append-version="true" />
+    <title>NexFit AI - Smart Gym Ecosystem</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base Scaffolding Structuring */
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Modern Glassmorphic Glowing Navbar */
+        .premium-nav {
+            background: rgba(15, 23, 42, 0.85) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 16px 0;
+            transition: all 0.3s ease;
+            z-index: 1050;
+        }
+
+        .navbar-brand-premium {
+            font-weight: 800;
+            font-size: 1.45rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #38bdf8 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link-premium {
+            color: #94a3b8 !important;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 16px !important;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+            .nav-link-premium:hover, .nav-link-premium.active {
+                color: #f8fafc !important;
+                background: rgba(255, 255, 255, 0.04);
+            }
+
+        /* High-End Linear Button Flow */
+        .btn-nav-auth {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+            color: white !important;
+            font-weight: 700;
+            padding: 9px 22px !important;
+            border-radius: 8px !important;
+            border: none !important;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+            transition: all 0.2s ease;
+        }
+
+            .btn-nav-auth:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+                color: white !important;
+            }
+
+        /* Dynamic Main Area Growth Buffer */
+        .main-body-wrapper {
+            flex: 1 0 auto;
+        }
+
+        /* System Structural Sticky Footer */
+        footer {
+            flex-shrink: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            background-color: #080c14;
+            color: #475569;
+        }
+
+        .footer-link {
+            color: #64748b !important;
+            transition: color 0.2s ease;
+        }
+
+            .footer-link:hover {
+                color: #38bdf8 !important;
+            }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NexFit</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+
+    <nav class="navbar navbar-expand-lg premium-nav sticky-top">
+        <div class="container">
+            <a class="navbar-brand navbar-brand-premium d-flex align-items-center" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-lightning-charge-fill me-2" style="color: #38bdf8;"></i>NEXFIT<span style="font-weight:300; color:#a855f7;">AI</span>
+            </a>
+            <button class="navbar-toggler border-0 shadow-none text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-2"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-1 mt-3 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-premium" asp-controller="Home" asp-action="Index">Ecosystem Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-premium" href="/#analytics">Live Analytics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-premium" href="/#features">Smart Features</a>
+                    </li>
+
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-premium text-warning" asp-controller="Admin" asp-action="Index">
+                                    <i class="bi bi-shield-lock-fill me-1"></i>Admin Hub
+                                </a>
+                            </li>
+                        }
+                        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                            <form asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-outline-danger btn-sm px-3 py-2 fw-bold rounded-2 transition-all w-100 w-lg-auto">Sign Out</button>
+                            </form>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    }
+                    else
+                    {
+                        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                            <a class="nav-link btn-nav-auth text-center shadow-none" asp-controller="Auth" asp-action="Login">Portal Login</a>
                         </li>
-                    </ul>
-                </div>
+                    }
+                </ul>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </div>
+    </nav>
+
+    <div class="main-body-wrapper py-4">
+        @RenderBody()
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - NexFit - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="py-4">
+        <div class="container text-center small">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+                <p class="mb-0 opacity-75">&copy; 2026 NexFit AI Platform. Built with C# & MongoDB. All Rights Reserved.</p>
+                <div class="d-flex gap-3">
+                    <a asp-controller="Home" asp-action="Privacy" class="footer-link text-decoration-none">Privacy Policy</a>
+                </div>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
