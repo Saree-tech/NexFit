@@ -1,8 +1,300 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+    bool IsUserLoggedIn = User.Identity?.IsAuthenticated ?? false;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    body {
+        background-color: #0b0f19 !important;
+    }
+
+    /* Premium Cyber Scaffold Banner */
+    .hero-banner-cyber {
+        background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.15), transparent), linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 24px !important;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .hero-banner-cyber::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: #3b82f6;
+            filter: blur(140px);
+            top: -50px;
+            left: -50px;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+    /* Glassmorphic Data Cards with Glowing Borders */
+    .glass-card-premium {
+        background: rgba(17, 22, 37, 0.6) !important;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 20px !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+        .glass-card-premium:hover {
+            transform: translateY(-5px);
+            background: rgba(22, 28, 45, 0.8) !important;
+            border-color: rgba(56, 189, 248, 0.3) !important;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5) !important;
+        }
+
+    /* Live Capacity Spinner Custom Pulse Effect */
+    .pulse-glow-indicator {
+        position: relative;
+    }
+
+        .pulse-glow-indicator::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            top: 14px;
+            right: -16px;
+            box-shadow: 0 0 10px #ef4444, 0 0 20px #ef4444;
+            animation: pulseAnimation 2s infinite;
+        }
+
+    @@keyframes pulseAnimation {
+        0% {
+            transform: scale(0.9);
+            opacity: 1;
+        }
+
+        50% {
+            transform: scale(1.4);
+            opacity: 0.4;
+        }
+
+        100% {
+            transform: scale(0.9);
+            opacity: 1;
+        }
+    }
+
+    /* Interactive Buttons Override */
+    .btn-gradient-primary {
+        background: linear-gradient(135deg, #38bdf8 0%, #3b82f6 100%) !important;
+        color: #fff !important;
+        border: none !important;
+        font-weight: 700;
+        border-radius: 12px !important;
+        transition: all 0.2s ease;
+    }
+
+        .btn-gradient-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3);
+        }
+
+    .btn-lock-auth {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        color: #94a3b8 !important;
+        font-weight: 600;
+        border-radius: 12px !important;
+        transition: all 0.2s ease;
+    }
+
+        .btn-lock-auth:hover {
+            background: rgba(255, 255, 255, 0.08) !important;
+            color: #f8fafc !important;
+            border-color: rgba(255, 255, 255, 0.15) !important;
+        }
+
+    .feature-icon-wrapper {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container my-5 text-white">
+
+    <div class="hero-banner-cyber p-5 mb-5 shadow-lg">
+        <div class="row align-items-center py-2">
+            <div class="col-lg-8 position-relative" style="z-index: 2;">
+                <span class="badge mb-3 fw-bold text-uppercase px-3 py-2" style="background-color: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3);">
+                    <i class="bi bi-star-fill me-1"></i> Special Launch Offer
+                </span>
+                <h1 class="display-5 fw-extrabold text-white mb-2" style="letter-spacing: -1px;">@ViewBag.PromoTitle</h1>
+                <p class="lead text-muted fs-5 mb-4" style="max-width: 600px;">@ViewBag.PromoDiscount</p>
+
+                <div class="d-flex flex-wrap gap-3">
+                    @if (!IsUserLoggedIn)
+                    {
+                        <a asp-controller="Auth" asp-action="Register" class="btn btn-gradient-primary btn-lg px-4 py-3 fs-6 shadow-sm">
+                            <i class="bi bi-cpu-fill me-2"></i>Initialize Membership
+                        </a>
+                        <a asp-controller="Auth" asp-action="Login" class="btn btn-outline-light btn-lg px-4 py-3 fs-6 border-secondary fw-semibold transition-all">
+                            Sign In to Dashboard
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-center bg-success bg-opacity-10 text-success px-4 py-3 rounded-3 border border-success border-opacity-15">
+                            <i class="bi bi-shield-check fs-3 me-3"></i>
+                            <div>
+                                <strong class="d-block mb-0.5">Secure Session Verified</strong>
+                                <span class="small opacity-75">Welcome back to the intelligent operations array dashboard.</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="analytics" class="mb-5">
+        <div class="d-flex align-items-center mb-4 border-bottom border-secondary border-opacity-10 pb-3">
+            <div class="bg-info bg-opacity-10 p-2 rounded-3 me-3 border border-info border-opacity-10">
+                <i class="bi bi-activity fs-4 text-info"></i>
+            </div>
+            <div>
+                <h3 class="fw-bold text-white mb-0">Live Infrastructure Matrix</h3>
+                <p class="text-muted small mb-0">Telemetry parsed from active network hardware nodes</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card glass-card-premium p-4 h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="text-uppercase text-muted small fw-bold tracking-wider" style="letter-spacing: 0.5px;">Live Occupancy Capacity</span>
+                        <i class="bi bi-people text-primary fs-4"></i>
+                    </div>
+                    <div class="d-flex align-items-center my-2">
+                        <h1 class="display-6 fw-bold text-white mb-0 pulse-glow-indicator">@ViewBag.LiveGymCapacity</h1>
+                    </div>
+                    <div class="progress mt-4 bg-dark rounded-pill" style="height: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                        <div class="progress-bar bg-primary rounded-pill" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <span class="text-muted small mt-3 d-block"><code class="text-info">SignalR</code> feedback socket loop operational.</span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card glass-card-premium p-4 h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="text-uppercase text-muted small fw-bold tracking-wider" style="letter-spacing: 0.5px;">Active Logs (Today)</span>
+                        <i class="bi bi-fingerprint text-success fs-4"></i>
+                    </div>
+                    <div class="my-2">
+                        <h2 class="fw-bold text-white mb-0">@ViewBag.ActiveMembersToday <span class="fs-5 text-muted fw-normal">Members</span></h2>
+                    </div>
+                    <p class="text-muted small mb-0 mt-auto pt-3 border-top border-secondary border-opacity-10">
+                        <i class="bi bi-arrow-up-right text-success me-1"></i> Facial recognition check-ins synchronized.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card glass-card-premium p-4 h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="text-uppercase text-muted small fw-bold tracking-wider" style="letter-spacing: 0.5px;">Facility Gateway Matrix</span>
+                        <i class="bi bi-cpu text-info fs-4"></i>
+                    </div>
+                    <div class="my-2">
+                        <h2 class="fw-bold text-info mb-0">@ViewBag.GymStatus</h2>
+                    </div>
+                    <p class="text-muted small mb-0 mt-auto pt-3 border-top border-secondary border-opacity-10">
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-15 py-1.5 px-2.5 rounded-2">All Nodes Nominal</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="features" class="pt-2">
+        <div class="d-flex align-items-center mb-4 border-bottom border-secondary border-opacity-10 pb-3">
+            <div class="bg-purple bg-opacity-10 p-2 rounded-3 me-3 border border-purple border-opacity-10" style="background-color: rgba(168,85,247,0.1);">
+                <i class="bi bi-box-seam fs-4" style="color: #c084fc;"></i>
+            </div>
+            <div>
+                <h3 class="fw-bold text-white mb-0">Smart Ecosystem Modules</h3>
+                <p class="text-muted small mb-0">Protected automation nodes requiring account validation keys</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card glass-card-premium p-4 h-100 d-flex flex-column">
+                    <div class="feature-icon-wrapper bg-primary bg-opacity-10 border border-primary border-opacity-15 text-primary">
+                        <i class="bi bi-camera-video-fill"></i>
+                    </div>
+                    <h5 class="fw-bold text-white mb-2">AI Form & Posture Array</h5>
+                    <p class="text-muted small flex-grow-1 line-height-base">Pipeline streaming frame buffer vectors to calculate biometric coordinate deviations in real-time to prevent injury metrics.</p>
+
+                    <div class="mt-4 pt-3 border-top border-secondary border-opacity-10">
+                        @if (IsUserLoggedIn)
+                        {
+                            <a href="/Posture/Upload" class="btn btn-gradient-primary w-100 py-2.5">Open Vector Pipeline</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Auth" asp-action="Login" class="btn btn-lock-auth w-100 py-2.5"><i class="bi bi-lock-fill me-1"></i>Validate Credentials</a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card glass-card-premium p-4 h-100 d-flex flex-column">
+                    <div class="feature-icon-wrapper bg-success bg-opacity-10 border border-success border-opacity-15 text-success">
+                        <i class="bi bi-camera-fill"></i>
+                    </div>
+                    <h5 class="fw-bold text-white mb-2">Smart Diet Snap Engine</h5>
+                    <p class="text-muted small flex-grow-1 line-height-base">Computer vision multi-modal parsing maps photo textures against calorie datasets to return instant automated nutritional macros.</p>
+
+                    <div class="mt-4 pt-3 border-top border-secondary border-opacity-10">
+                        @if (IsUserLoggedIn)
+                        {
+                            <a href="/Diet/Analyze" class="btn btn-gradient-primary w-100 py-2.5">Deploy Vision Scan</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Auth" asp-action="Login" class="btn btn-lock-auth w-100 py-2.5"><i class="bi bi-lock-fill me-1"></i>Validate Credentials</a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card glass-card-premium p-4 h-100 d-flex flex-column">
+                    <div class="feature-icon-wrapper" style="background-color: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.15); color: #c084fc;">
+                        <i class="bi bi-chat-square-dots-fill"></i>
+                    </div>
+                    <h5 class="fw-bold text-white mb-2">SignalR Synchronous Hub</h5>
+                    <p class="text-muted small flex-grow-1 line-height-base">Maintains low-latency full-duplex socket pipes connecting members to dedicated tactical coaches instantly.</p>
+
+                    <div class="mt-4 pt-3 border-top border-secondary border-opacity-10">
+                        @if (IsUserLoggedIn)
+                        {
+                            <a href="/Chat/Trainer" class="btn btn-gradient-primary w-100 py-2.5">Open Socket Channel</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Auth" asp-action="Login" class="btn btn-lock-auth w-100 py-2.5"><i class="bi bi-lock-fill me-1"></i>Validate Credentials</a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>

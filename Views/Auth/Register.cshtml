@@ -1,0 +1,125 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<style>
+    body {
+        background-color: #0b0f19 !important;
+    }
+
+    .register-card {
+        background: #111625 !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 16px !important;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .form-dark-input {
+        background-color: #1a2035 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #ffffff !important;
+        border-radius: 8px !important;
+        padding: 12px 14px;
+        transition: all 0.2s ease;
+    }
+
+        .form-dark-input:focus {
+            background-color: #1d243f !important;
+            border-color: #38bdf8 !important; /* Premium Blue Focus Ring */
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15) !important;
+            color: #ffffff !important;
+        }
+
+    .payment-notice-box {
+        background: rgba(245, 158, 11, 0.04) !important;
+        border: 1px dashed rgba(245, 158, 11, 0.25) !important;
+        border-radius: 10px;
+    }
+
+    .btn-gradient-primary {
+        background: linear-gradient(135deg, #38bdf8, #0284c7) !important;
+        color: white !important;
+        border: none !important;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        padding: 12px;
+        transition: all 0.2s ease;
+    }
+
+        .btn-gradient-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.25);
+        }
+
+    .register-link {
+        color: #38bdf8 !important;
+        transition: all 0.2s ease;
+    }
+
+        .register-link:hover {
+            color: #7dd3fc !important;
+            text-decoration: underline !important;
+        }
+</style>
+
+<div class="container d-flex align-items-center justify-content-center mt-4 mb-5" style="min-height: 85vh;">
+    <div class="card register-card text-white w-100" style="max-width: 550px;">
+        <div class="card-body p-4 p-sm-5">
+
+            <h2 class="fw-bold text-center text-white mb-2" style="letter-spacing: -0.5px;">Request Membership</h2>
+            <p class="text-muted text-center small mb-4">Submit your profile and fee credentials for management verification</p>
+
+            @if (ViewBag.SuccessMessage != null)
+            {
+                <div class="alert border-0 bg-success bg-opacity-10 text-success p-4 rounded-3 d-flex align-items-start gap-3">
+                    <i class="bi bi-check-circle-fill fs-4 mt-0.5"></i>
+                    <div>
+                        <h6 class="fw-bold mb-1">Request Successfully Logged</h6>
+                        <span class="small opacity-85">@ViewBag.SuccessMessage</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <form asp-action="Register" method="post">
+                    <div class="text-danger small mb-3 fw-semibold" asp-validation-summary="ModelOnly"></div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-bold text-uppercase tracking-wider" style="letter-spacing: 0.5px;">Full Name</label>
+                        <input type="text" name="fullName" class="form-control form-dark-input shadow-none" placeholder="Junaid Khan" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-secondary small fw-bold text-uppercase tracking-wider" style="letter-spacing: 0.5px;">Email Address</label>
+                        <input type="email" name="email" class="form-control form-dark-input shadow-none" placeholder="user@domain.com" required />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-secondary small fw-bold text-uppercase tracking-wider" style="letter-spacing: 0.5px;">Create Password</label>
+                        <input type="password" name="password" class="form-control form-dark-input shadow-none" placeholder="••••••••" required minlength="6" />
+                    </div>
+
+                    <div class="p-4 payment-notice-box mb-4">
+                        <h6 class="fw-bold text-warning mb-2 d-flex align-items-center gap-2">
+                            <i class="bi bi-wallet2 fs-5"></i> Fee Payment Protocol Steps:
+                        </h6>
+                        <p class="small text-muted mb-3 line-height-base">
+                            Please transfer your monthly membership processing fee to the official account: <strong class="text-white">HBL Account: 1234-56789</strong>. Once completed, extract your bank receipt reference token ID and insert it below.
+                        </p>
+
+                        <label class="form-label text-secondary small fw-bold text-uppercase tracking-wider" style="letter-spacing: 0.5px;">Payment Transaction Ref ID</label>
+                        <input type="text" name="transactionId" class="form-control form-dark-input shadow-none bg-dark bg-opacity-20" placeholder="e.g., TXN987654321" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-gradient-primary w-100 rounded-2 transition-all d-flex align-items-center justify-content-center gap-2">
+                        <i class="bi bi-send-check-fill fs-5"></i> Submit Verification Request
+                    </button>
+                </form>
+
+                <div class="text-center mt-4 border-top border-secondary border-opacity-10 pt-3">
+                    <p class="text-muted small mb-0">Already registered? <a asp-action="Login" class="register-link text-decoration-none fw-bold">Sign in securely</a></p>
+                </div>
+            }
+        </div>
+    </div>
+</div>

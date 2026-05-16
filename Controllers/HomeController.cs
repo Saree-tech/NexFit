@@ -1,32 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
-using NexFit.Models;
-using System.Diagnostics;
 
 namespace NexFit.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
-            return View();
-        }
+            // Publicly visible gym statistics (Laraib's SignalR integration can update this later)
+            ViewBag.LiveGymCapacity = "45%";
+            ViewBag.ActiveMembersToday = 87;
+            ViewBag.GymStatus = "OPEN";
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            // Promotion Banners & Offers Data
+            ViewBag.PromoTitle = "Summer Fitness Revolution 2026!";
+            ViewBag.PromoDiscount = "Get 20% OFF on all Yearly Memberships. Valid till next week!";
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
     }
 }

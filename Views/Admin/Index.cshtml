@@ -1,0 +1,167 @@
+﻿@{
+    Layout = "_Layout";
+    var requests = ViewBag.PendingRequests as List<NexFit.Models.ApplicationUser>;
+}
+
+<style>
+    body {
+        background-color: #0b0f19 !important;
+    }
+
+    .custom-dash-card {
+        background: #111625 !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 12px !important;
+        overflow: hidden;
+    }
+
+    .custom-table th {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        color: #a0aec0 !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.08) !important;
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        padding: 14px 16px !important;
+    }
+
+    .custom-table td {
+        color: #e2e8f0 !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        padding: 16px !important;
+        background-color: transparent !important;
+    }
+
+    .custom-table tbody tr:hover td {
+        background-color: rgba(255, 255, 255, 0.02) !important;
+    }
+
+    .txn-code {
+        background: rgba(56, 189, 248, 0.1) !important;
+        color: #38bdf8 !important;
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9rem;
+    }
+
+    .form-dark-input {
+        background-color: #1a2035 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #ffffff !important;
+        border-radius: 8px !important;
+        padding: 10px 14px;
+    }
+
+        .form-dark-input:focus {
+            background-color: #1d243f !important;
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+            color: #ffffff !important;
+        }
+
+    .btn-gradient-success {
+        background: linear-gradient(135deg, #10b981, #059669) !important;
+        color: white !important;
+        border: none !important;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+        .btn-gradient-success:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+</style>
+
+<div class="container-fluid mt-5 px-4 text-white">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary border-opacity-10 pb-4">
+        <div>
+            <h1 class="fw-bold text-white mb-1" style="letter-spacing: -0.5px;">NexFit Management Operations Hub</h1>
+            <p class="text-muted mb-0 small text-uppercase tracking-wider" style="letter-spacing: 1px;">Role assignment pipelines and subscription verification nodes</p>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-lg-8">
+            <div class="card custom-dash-card shadow-lg">
+                <div class="card-header bg-transparent fw-bold border-bottom border-secondary border-opacity-10 py-3 d-flex align-items-center justify-content-between">
+                    <span class="text-warning"><i class="bi bi-wallet2 me-2"></i> Pending Membership Fee Invoices</span>
+                    <span class="badge bg-warning text-dark px-2.5 py-1.5 rounded-pill fw-bold small">@requests?.Count Pending</span>
+                </div>
+                <div class="card-body p-0">
+                    @if (requests == null || requests.Count == 0)
+                    {
+                        <div class="text-center py-5">
+                            <i class="bi bi-shield-check text-muted display-4 d-block mb-3"></i>
+                            <p class="text-muted small mb-0">No new pending registration requests found inside database clusters.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table custom-table align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Full Name</th>
+                                        <th>Email Address</th>
+                                        <th>Transaction Ref Token</th>
+                                        <th class="text-end">Verification Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var req in requests)
+                                    {
+                                        <tr>
+                                            <td class="fw-semibold text-white">@req.FullName</td>
+                                            <td class="text-muted">@req.Email</td>
+                                            <td><span class="txn-code">@req.PaymentTransactionId</span></td>
+                                            <td class="text-end">
+                                                <form asp-action="ApproveUser" method="post" class="d-inline">
+                                                    <input type="hidden" name="userId" value="@req.Id" />
+                                                    <button type="submit" class="btn btn-gradient-success btn-sm px-3 py-2 me-2 rounded-2">
+                                                        <i class="bi bi-check-lg me-1"></i> Confirm Fee & Approve
+                                                    </button>
+                                                </form>
+                                                <form asp-action="RejectUser" method="post" class="d-inline">
+                                                    <input type="hidden" name="userId" value="@req.Id" />
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm px-3 py-2 rounded-2">
+                                                        <i class="bi bi-trash3 me-1"></i> Drop
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card custom-dash-card shadow-lg">
+                <div class="card-header bg-transparent fw-bold text-info border-bottom border-secondary border-opacity-10 py-3">
+                    <i class="bi bi-person-plus-fill me-2"></i> Register New Fitness Trainer
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="CreateTrainer" method="post">
+                        <div class="mb-3">
+                            <label class="form-label small text-muted fw-semibold uppercase tracking-wide">Trainer Full Name</label>
+                            <input type="text" name="fullName" class="form-control form-dark-input shadow-none" placeholder="e.g., Coach Ahmed" required />
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small text-muted fw-semibold uppercase tracking-wide">Corporate Email Contact</label>
+                            <input type="email" name="email" class="form-control form-dark-input shadow-none" placeholder="trainer@nexfit.com" required />
+                        </div>
+                        <button type="submit" class="btn btn-info text-dark fw-bold w-100 py-2.5 rounded-2 shadow-sm transition-all">
+                            <i class="bi bi-plus-circle-fill me-2"></i> Inject Trainer Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
