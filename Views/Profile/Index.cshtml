@@ -1,0 +1,134 @@
+﻿@model NexFit.Models.ApplicationUser
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="container py-5">
+
+    <div class="card shadow-lg border-0 rounded-4">
+
+        <div class="card-body p-5">
+
+            <h2 class="fw-bold mb-4">
+                My Fitness Profile
+            </h2>
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["Success"]
+                </div>
+            }
+
+            <form asp-action="Update" method="post">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Full Name</label>
+
+                        <input asp-for="FullName"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Age</label>
+
+                        <input asp-for="Age"
+                               type="number"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Gender</label>
+
+                        <select asp-for="Gender"
+                                class="form-select">
+
+                            <option>Male</option>
+                            <option>Female</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">
+                            Height (CM)
+                        </label>
+
+                        <input asp-for="Height"
+                               type="number"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">
+                            Current Weight
+                        </label>
+
+                        <input asp-for="Weight"
+                               type="number"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">
+                            Goal Weight
+                        </label>
+
+                        <input asp-for="GoalWeight"
+                               type="number"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">
+                            Fitness Goal
+                        </label>
+
+                        <input asp-for="FitnessGoal"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">
+                            Activity Level
+                        </label>
+
+                        <select asp-for="ActivityLevel"
+                                class="form-select">
+
+                            <option>Beginner</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-12 mb-4">
+                        <label class="form-label">
+                            Bio
+                        </label>
+
+                        <textarea asp-for="Bio"
+                                  class="form-control"
+                                  rows="4"></textarea>
+                    </div>
+
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary btn-lg">
+
+                    Save Profile
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

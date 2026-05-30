@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using NexFit.Backend.Data;
 using NexFit.Models;
-using NexFit.Backend.Data;
+using NexFit.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BCryptNet = BCrypt.Net.BCrypt;
@@ -13,19 +12,19 @@ namespace NexFit.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly MongoDbContext _context;
+        private readonly MongoDbRepository _db;
 
-        public AdminController(MongoDbContext context)
+        public AdminController(MongoDbRepository context)
         {
-            _context = context;
+            _db = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            var pendingRequests = await _context.Users.Find(u => u.IsApproved == false).ToListAsync();
+            var pendingRequests = await _db.Users.Find(u => u.IsApproved == false).ToListAsync();
             ViewBag.PendingRequests = pendingRequests;
 
-            ViewBag.TotalMembers = await _context.Users.CountDocumentsAsync(u => u.IsApproved == true);
+            ViewBag.TotalMembers = await _db.Users.CountDocumentsAsync(u => u.IsApproved == true);
             ViewBag.SystemStatus = "ONLINE";
             return View();
         }
@@ -37,14 +36,14 @@ namespace NexFit.Controllers
             var update = Builders<ApplicationUser>.Update
                 .Set(u => u.IsApproved, true);
 
-            await _context.Users.UpdateOneAsync(u => u.Id == userId, update);
+            await _db.Users.UpdateOneAsync(u => u.Id == userId, update);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public async Task<IActionResult> RejectUser(string userId)
         {
-            await _context.Users.DeleteOneAsync(u => u.Id == userId);
+            await _db.Users.DeleteOneAsync(u => u.Id == userId);
             return RedirectToAction("Index");
         }
 
@@ -64,7 +63,7 @@ namespace NexFit.Controllers
                 Roles = new List<string> { "Trainer" }
             };
 
-            await _context.Users.InsertOneAsync(newTrainer);
+            await _db.Users.InsertOneAsync(newTrainer);
             return RedirectToAction("Index");
         }
     }
