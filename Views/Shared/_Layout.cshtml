@@ -20,6 +20,8 @@
             display: flex;
             flex-direction: column;
         }
+
+        /* Modern Glassmorphic Glowing Navbar */
         .premium-nav {
             background: rgba(15, 23, 42, 0.85) !important;
             backdrop-filter: blur(16px);
@@ -29,6 +31,7 @@
             transition: all 0.3s ease;
             z-index: 1050;
         }
+
         .navbar-brand-premium {
             font-weight: 800;
             font-size: 1.45rem;
@@ -37,6 +40,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
         .nav-link-premium {
             color: #94a3b8 !important;
             font-weight: 600;
@@ -45,10 +49,13 @@
             border-radius: 8px;
             transition: all 0.2s ease;
         }
+
         .nav-link-premium:hover, .nav-link-premium.active {
             color: #f8fafc !important;
             background: rgba(255, 255, 255, 0.04);
         }
+
+        /* High-End Linear Button Flow */
         .btn-nav-auth {
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
             color: white !important;
@@ -59,6 +66,7 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
             transition: all 0.2s ease;
         }
+
         .btn-nav-auth:hover {
             transform: translateY(-1px);
             box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
@@ -118,6 +126,7 @@
                         <a class="nav-link nav-link-premium"
                            asp-controller="Profile"
                            asp-action="Index">
+
                             <i class="bi bi-person-circle me-1"></i>
                             Profile
                         </a>

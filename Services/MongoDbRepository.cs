@@ -6,7 +6,17 @@ namespace NexFit.Services
     public class MongoDbRepository
     {
         private readonly IMongoDatabase _database;
+
+        // =========================
+        // COLLECTIONS
+        // =========================
+
         private readonly IMongoCollection<ApplicationUser> _users;
+        private readonly IMongoCollection<DailyVitals> _dailyVitals;
+
+        // =========================
+        // CONSTRUCTOR
+        // =========================
 
         public MongoDbRepository(IConfiguration configuration)
         {
@@ -15,7 +25,11 @@ namespace NexFit.Services
 
             _database = client.GetDatabase("NexFitDb");
 
-            _users = _database.GetCollection<ApplicationUser>("Users");
+            _users =
+                _database.GetCollection<ApplicationUser>("Users");
+
+            _dailyVitals =
+                _database.GetCollection<DailyVitals>("DailyVitals");
         }
 
         // =========================
@@ -25,10 +39,18 @@ namespace NexFit.Services
         public IMongoCollection<ApplicationUser> Users => _users;
 
         // =========================
+        // DAILY VITALS COLLECTION
+        // =========================
+
+        public IMongoCollection<DailyVitals> DailyVitals
+            => _dailyVitals;
+
+        // =========================
         // GET USER BY EMAIL
         // =========================
 
-        public async Task<ApplicationUser?> GetUserByEmailAsync(string email)
+        public async Task<ApplicationUser?> GetUserByEmailAsync(
+            string email)
         {
             return await _users
                 .Find(x => x.Email == email)
@@ -39,7 +61,8 @@ namespace NexFit.Services
         // GET USER BY ID
         // =========================
 
-        public async Task<ApplicationUser?> GetUserByIdAsync(string id)
+        public async Task<ApplicationUser?> GetUserByIdAsync(
+            string id)
         {
             return await _users
                 .Find(x => x.Id == id)
@@ -61,8 +84,11 @@ namespace NexFit.Services
         // CREATE USER
         // =========================
 
-        public async Task CreateUserAsync(ApplicationUser user)
+        public async Task CreateUserAsync(
+            ApplicationUser user)
         {
+            RecalculateFitness(user);
+
             await _users.InsertOneAsync(user);
         }
 
@@ -70,9 +96,14 @@ namespace NexFit.Services
         // UPDATE USER
         // =========================
 
-        public async Task UpdateUserAsync(ApplicationUser user)
+        public async Task UpdateUserAsync(
+            ApplicationUser user)
         {
-            await _users.ReplaceOneAsync(x => x.Id == user.Id, user);
+            RecalculateFitness(user);
+
+            await _users.ReplaceOneAsync(
+                x => x.Id == user.Id,
+                user);
         }
 
         // =========================
@@ -84,35 +115,97 @@ namespace NexFit.Services
             await _users.DeleteOneAsync(x => x.Id == id);
         }
 
-        public void RecalculateFitness(ApplicationUser user)
+        // =========================
+        // SAVE DAILY VITALS
+        // =========================
+
+        public async Task SaveDailyVitalsAsync(
+            DailyVitals vitals)
+        {
+            await _dailyVitals.InsertOneAsync(vitals);
+        }
+
+        // =========================
+        // GET USER DAILY VITALS
+        // =========================
+
+        public async Task<List<DailyVitals>>
+            GetUserVitalsAsync(string userId)
+        {
+            return await _dailyVitals
+                .Find(x => x.UserId == userId)
+                .SortByDescending(x => x.Date)
+                .ToListAsync();
+        }
+
+        // =========================
+        // GET LATEST DAILY VITALS
+        // =========================
+
+        public async Task<DailyVitals?>
+            GetLatestVitalsAsync(string userId)
+        {
+            return await _dailyVitals
+                .Find(x => x.UserId == userId)
+                .SortByDescending(x => x.Date)
+                .FirstOrDefaultAsync();
+        }
+
+        // =========================
+        // FITNESS CALCULATIONS
+        // =========================
+
+        public void RecalculateFitness(
+            ApplicationUser user)
         {
             // =========================
             // BMI
             // =========================
-            if (user.Height > 0 && user.Weight > 0)
+
+            if (user.Height > 0 &&
+                user.Weight > 0)
             {
-                double heightM = user.Height / 100.0;
-                user.BMI = user.Weight / (heightM * heightM);
+                double heightM =
+                    user.Height / 100.0;
+
+                user.BMI =
+                    user.Weight /
+                    (heightM * heightM);
             }
 
             // =========================
-            // IDEAL / TARGET WEIGHT
-            // (simple fitness formula)
+            // TARGET WEIGHT
             // =========================
+
             if (user.Height > 0)
             {
-                // BMI ideal range approx 22
-                double heightM = user.Height / 100.0;
-                user.GoalWeight = 22 * (heightM * heightM);
+                double heightM =
+                    user.Height / 100.0;
+
+                user.GoalWeight =
+                    22 * (heightM * heightM);
             }
 
             // =========================
-            // PROGRESS
+            // GOAL COMPLETION
             // =========================
+
             if (user.GoalWeight > 0)
             {
-                double progress = (1 - (user.Weight / user.GoalWeight)) * 100;
-                user.GoalCompletion = (int)Math.Clamp(progress, 0, 100);
+                double difference =
+                    Math.Abs(
+                        user.GoalWeight -
+                        user.Weight);
+
+                double progress =
+                    100 - ((difference /
+                    user.GoalWeight) * 100);
+
+                user.GoalCompletion =
+                    (int)Math.Clamp(
+                        progress,
+                        0,
+                        100);
             }
         }
     }
