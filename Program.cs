@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // =========================
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
 
 // Mongo Services
 builder.Services.AddSingleton<MongoDbRepository>();
@@ -69,7 +70,7 @@ app.UseAuthorization();
 // =========================
 // ROUTES
 // =========================
-
+app.MapHub<NexFit.Hubs.GymHub>("/gymHub");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

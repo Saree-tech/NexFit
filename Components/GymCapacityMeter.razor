@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.SignalR
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+
+<div class="card shadow-sm p-4 text-center" style="max-width: 400px; margin: 20px auto; border-radius: 15px;">
+    <h3 class="mb-3 font-weight-bold text-primary">🔴 Live Gym Capacity</h3>
+
+    <div class="progress mb-3" style="height: 30px; border-radius: 20px; background-color: #e9ecef;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated @GetProgressBarColor(currentCapacity)"
+             role="progressbar"
+             style="width: @currentCapacity%; font-size: 16px; font-weight: bold;"
+             aria-valuenow="@currentCapacity"
+             aria-valuemin0"
+             aria-valuemax="100">
+            @currentCapacity%
+        </div>
+    </div>
+
+    <p class="lead">
+        Current Status:
+        <span class="badge @GetBadgeColor(currentCapacity) p-2">
+            @GetStatusText(currentCapacity)
+        </span>
+    </p>
+</div>
+
+@code {
+    private HubConnection? hubConnection;
+    private int currentCapacity = 0; // Default capacity initially 0%
+
+    protected override async Task OnInitializedAsync()
+    {
+        // SignalR Hub se connection build karna
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/gymHub"))
+            .Build();
+
+        // Backend se jab "ReceiveCapacityUpdate" ka message aaye, to value update karo
+        hubConnection.On<int>("ReceiveCapacityUpdate", (capacity) =>
+        {
+            currentCapacity = capacity;
+            StateHasChanged(); // UI ko refresh karne ke liye
+        });
+
+        // Connection start karna
+        await hubConnection.StartAsync();
+    }
+
+    // Helper functions UI ko range ke hisab se colors dene ke liye
+    private string GetProgressBarColor(int value) => value switch
+    {
+        < 50 => "bg-success",     // Green if uncrowded
+        < 85 => "bg-warning text-dark", // Yellow if getting full
+        _ => "bg-danger"          // Red if extremely full
+    };
+
+    private string GetBadgeColor(int value) => value switch
+    {
+        < 50 => "badge-success bg-success",
+        < 85 => "badge-warning bg-warning text-dark",
+        _ => "badge-danger bg-danger"
+    };
+
+    private string GetStatusText(int value) => value switch
+    {
+        < 50 => "Spacious - Plenty of space!",
+        < 85 => "Moderate - Getting busy.",
+        _ => "Crowded - Avoid if possible!"
+    };
+
+    // Connection ko clean up karna jab page close ho
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}
