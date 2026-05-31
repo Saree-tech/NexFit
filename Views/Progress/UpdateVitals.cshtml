@@ -1,0 +1,572 @@
+﻿@model NexFit.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Progress & Vitals";
+
+    double bmi = Model?.BMI ?? 0;
+    double weight = Model?.Weight ?? 0;
+    double targetWeight = Model?.GoalWeight ?? 0;
+
+    double water = Model?.WaterIntake ?? 0;
+    double sleep = Model?.SleepHours ?? 0;
+
+    int calories = Model?.CaloriesBurned ?? 0;
+    int streak = Model?.WorkoutStreak ?? 0;
+    int visits = Model?.TotalVisits ?? 0;
+    int goal = Model?.GoalCompletion ?? 0;
+
+    double weightDifference = targetWeight - weight;
+}
+
+<style>
+
+    body {
+        background: #07111f !important;
+        color: white;
+    }
+
+    .vitals-wrapper {
+        padding-top: 40px;
+        padding-bottom: 80px;
+    }
+
+    .hero-box {
+        background: radial-gradient(circle at top right, rgba(59,130,246,.25), transparent 30%), linear-gradient(135deg,#081423,#0f1f37);
+        border-radius: 30px;
+        padding: 55px;
+        border: 1px solid rgba(255,255,255,.08);
+        margin-bottom: 40px;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 800;
+        color: white;
+    }
+
+    .hero-subtitle {
+        color: #dbeafe;
+        font-size: 1.05rem;
+        line-height: 1.8;
+        max-width: 750px;
+    }
+
+    .glass-card {
+        background: rgba(15,23,42,.88);
+        border: 1px solid rgba(255,255,255,.06);
+        border-radius: 24px;
+        padding: 28px;
+        height: 100%;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 10px 30px rgba(0,0,0,.3);
+        transition: .3s;
+    }
+
+        .glass-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(59,130,246,.25);
+        }
+
+    .card-title-small {
+        color: #93c5fd;
+        font-size: .9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+    }
+
+    .card-value {
+        color: white;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        color: #dbeafe;
+        line-height: 1.7;
+    }
+
+    .section-title {
+        color: white;
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    .section-subtitle {
+        color: #cbd5e1;
+        margin-bottom: 30px;
+    }
+
+    .progress {
+        height: 12px;
+        background: rgba(255,255,255,.08);
+        border-radius: 999px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        background: linear-gradient(135deg,#2563eb,#38bdf8);
+    }
+
+    .vital-icon {
+        width: 65px;
+        height: 65px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .goal-box {
+        background: rgba(59,130,246,.08);
+        border: 1px solid rgba(59,130,246,.15);
+        border-radius: 20px;
+        padding: 25px;
+    }
+
+</style>
+
+<div class="container vitals-wrapper">
+
+    <!-- HERO -->
+
+    <div class="hero-box">
+
+        <div class="mb-3">
+
+            <span class="badge bg-primary px-4 py-3 rounded-pill">
+                AI Progress Tracking
+            </span>
+
+        </div>
+
+        <h1 class="hero-title mb-4">
+            Progress & Body Vitals
+        </h1>
+
+        <p class="hero-subtitle">
+
+            Monitor your complete fitness journey with
+            AI-powered analytics, daily body vitals,
+            hydration tracking, workout consistency,
+            calorie burn estimation, and smart goal progress.
+
+        </p>
+
+    </div>
+
+    <!-- QUICK STATS -->
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="glass-card text-center">
+
+                <div class="vital-icon mx-auto"
+                     style="background:rgba(59,130,246,.15); color:#38bdf8;">
+
+                    <i class="bi bi-heart-pulse-fill"></i>
+
+                </div>
+
+                <div class="card-title-small">
+                    BMI
+                </div>
+
+                <div class="card-value">
+                    @bmi
+                </div>
+
+                <div class="card-text">
+                    Body Mass Index
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="glass-card text-center">
+
+                <div class="vital-icon mx-auto"
+                     style="background:rgba(34,197,94,.15); color:#4ade80;">
+
+                    <i class="bi bi-cup-straw"></i>
+
+                </div>
+
+                <div class="card-title-small">
+                    Water Intake
+                </div>
+
+                <div class="card-value">
+                    @water L
+                </div>
+
+                <div class="card-text">
+                    Daily Hydration
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="glass-card text-center">
+
+                <div class="vital-icon mx-auto"
+                     style="background:rgba(168,85,247,.15); color:#c084fc;">
+
+                    <i class="bi bi-moon-stars-fill"></i>
+
+                </div>
+
+                <div class="card-title-small">
+                    Sleep
+                </div>
+
+                <div class="card-value">
+                    @sleep hrs
+                </div>
+
+                <div class="card-text">
+                    Recovery Tracking
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="glass-card text-center">
+
+                <div class="vital-icon mx-auto"
+                     style="background:rgba(249,115,22,.15); color:#fb923c;">
+
+                    <i class="bi bi-fire"></i>
+
+                </div>
+
+                <div class="card-title-small">
+                    Calories Burned
+                </div>
+
+                <div class="card-value">
+                    @calories
+                </div>
+
+                <div class="card-text">
+                    Workout Energy Output
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- GOAL PROGRESS -->
+
+    <div class="glass-card mb-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <div>
+
+                <h2 class="section-title">
+                    Goal Progress
+                </h2>
+
+                <p class="section-subtitle mb-0">
+                    AI-generated body transformation progress
+                </p>
+
+            </div>
+
+            <span class="badge bg-success px-4 py-3 rounded-pill">
+                @goal% Completed
+            </span>
+
+        </div>
+
+        <div class="progress mb-4">
+
+            <div class="progress-bar"
+                 style="width:@goal%">
+            </div>
+
+        </div>
+
+        <div class="row text-center g-4">
+
+            <div class="col-md-3">
+
+                <div class="goal-box">
+
+                    <h2 class="fw-bold text-info">
+                        @weight KG
+                    </h2>
+
+                    <p class="mb-0 text-light">
+                        Current Weight
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="goal-box">
+
+                    <h2 class="fw-bold text-success">
+                        @targetWeight KG
+                    </h2>
+
+                    <p class="mb-0 text-light">
+                        Target Weight
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="goal-box">
+
+                    <h2 class="fw-bold text-warning">
+                        @Math.Abs(weightDifference) KG
+                    </h2>
+
+                    <p class="mb-0 text-light">
+                        Remaining Difference
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="goal-box">
+
+                    <h2 class="fw-bold text-danger">
+                        @streak Days
+                    </h2>
+
+                    <p class="mb-0 text-light">
+                        Workout Streak
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- DAILY FITNESS INSIGHTS -->
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-lg-6">
+
+            <div class="glass-card h-100">
+
+                <h3 class="text-white fw-bold mb-4">
+                    Daily Fitness Insights
+                </h3>
+
+                <div class="mb-4">
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <span>Hydration Goal</span>
+                        <span>@water / 4L</span>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div class="progress-bar"
+                             style="width:@((water / 4.0) * 100)%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <span>Sleep Goal</span>
+                        <span>@sleep / 8 hrs</span>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div class="progress-bar"
+                             style="width:@((sleep / 8.0) * 100)%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <span>Goal Completion</span>
+                        <span>@goal%</span>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div class="progress-bar"
+                             style="width:@goal%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="glass-card h-100">
+
+                <h3 class="text-white fw-bold mb-4">
+                    AI Recommendations
+                </h3>
+
+                @if (water < 2)
+                {
+                    <div class="alert alert-warning rounded-4 border-0">
+
+                        Increase your water intake.
+                        Hydration is below optimal level.
+
+                    </div>
+                }
+
+                @if (sleep < 6)
+                {
+                    <div class="alert alert-danger rounded-4 border-0">
+
+                        Your sleep recovery is low.
+                        Proper recovery improves performance.
+
+                    </div>
+                }
+
+                @if (streak >= 5)
+                {
+                    <div class="alert alert-success rounded-4 border-0">
+
+                        Excellent workout consistency detected.
+                        Keep maintaining your fitness momentum.
+
+                    </div>
+                }
+
+                @if (goal >= 80)
+                {
+                    <div class="alert alert-info rounded-4 border-0">
+
+                        You're very close to achieving
+                        your transformation goal.
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ACTIVITY SUMMARY -->
+
+    <div class="glass-card">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <h2 class="section-title">
+                    Activity Summary
+                </h2>
+
+                <p class="section-subtitle mb-0">
+                    Smart attendance & fitness consistency analytics
+                </p>
+
+            </div>
+
+            <span class="badge bg-primary px-4 py-3 rounded-pill">
+                LIVE ANALYTICS
+            </span>
+
+        </div>
+
+        <div class="row g-4 text-center">
+
+            <div class="col-md-4">
+
+                <h1 class="fw-bold text-info">
+                    @visits
+                </h1>
+
+                <p class="text-light">
+                    Total Gym Visits
+                </p>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <h1 class="fw-bold text-success">
+                    @streak
+                </h1>
+
+                <p class="text-light">
+                    Active Streak
+                </p>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <h1 class="fw-bold text-warning">
+                    @calories
+                </h1>
+
+                <p class="text-light">
+                    Total Calories Burned
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
