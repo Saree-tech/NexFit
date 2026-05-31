@@ -1,0 +1,726 @@
+﻿@model NexFit.Models.ViewModels.ProgressViewModel
+
+@{
+    ViewData["Title"] = "Progress & Vitals";
+
+    var user = Model?.User;
+
+    var latest = Model?.VitalsHistory?
+        .OrderByDescending(x => x.Date)
+        .FirstOrDefault();
+
+    double currentWeight =
+        latest?.Weight ??
+        user?.Weight ??
+        0;
+
+    double water =
+        latest?.WaterIntake ??
+        user?.WaterIntake ??
+        0;
+
+    double sleep =
+        latest?.SleepHours ??
+        user?.SleepHours ??
+        0;
+
+    int steps =
+        latest?.StepsWalked ?? 0;
+
+    int calories =
+        latest?.CaloriesBurned ??
+        user?.CaloriesBurned ??
+        0;
+
+    int workout =
+        latest?.WorkoutMinutes ?? 0;
+
+    double height =
+        latest?.Height ??
+        user?.Height ??
+        0;
+
+    double bmi =
+        user?.BMI ?? 0;
+
+    if (height > 0 &&
+        currentWeight > 0)
+    {
+        double heightM =
+            height / 100.0;
+
+        bmi =
+            currentWeight /
+            (heightM * heightM);
+    }
+
+    bmi = Math.Round(bmi, 1);
+
+    int goal =
+        user?.GoalCompletion ?? 0;
+
+    int churnRisk =
+        user?.ChurnRisk ?? 0;
+
+    int streak =
+        user?.WorkoutStreak ?? 0;
+
+    string bmiStatus = "Normal";
+
+    if (bmi < 18.5)
+    {
+        bmiStatus = "Underweight";
+    }
+    else if (bmi >= 25)
+    {
+        bmiStatus = "Overweight";
+    }
+
+    string aiMessage =
+        "Excellent consistency detected. Keep maintaining your fitness momentum.";
+
+    if (water < 2)
+    {
+        aiMessage =
+            "Hydration level is below optimal range. Increase daily water intake.";
+    }
+    else if (sleep < 6)
+    {
+        aiMessage =
+            "Your sleep recovery is low. Improve your sleep cycle for better performance.";
+    }
+    else if (workout < 30)
+    {
+        aiMessage =
+            "Workout duration is low. Increase training intensity and consistency.";
+    }
+}
+
+<style>
+
+    body {
+        background: #07111f !important;
+        color: white;
+    }
+
+    .progress-wrapper {
+        padding-top: 40px;
+        padding-bottom: 70px;
+    }
+
+    .hero-card {
+        border-radius: 32px;
+        padding: 55px;
+        margin-bottom: 40px;
+        background: radial-gradient(circle at top right, rgba(59,130,246,.25), transparent 30%), linear-gradient(135deg, #081423 0%, #10203a 100%);
+        border: 1px solid rgba(255,255,255,.06);
+        box-shadow: 0 25px 70px rgba(0,0,0,.45);
+    }
+
+    .hero-title {
+        font-size: 3rem;
+        font-weight: 800;
+        color: white;
+    }
+
+    .hero-subtitle {
+        color: #dbeafe;
+        line-height: 1.8;
+        max-width: 760px;
+    }
+
+    .main-card {
+        background: rgba(15,23,42,.88);
+        border: 1px solid rgba(255,255,255,.06);
+        border-radius: 24px;
+        padding: 28px;
+        backdrop-filter: blur(12px);
+        height: 100%;
+    }
+
+        .main-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59,130,246,.25);
+        }
+
+    .card-title {
+        color: #93c5fd;
+        font-size: .9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .card-value {
+        font-size: 2.3rem;
+        font-weight: 800;
+        margin-top: 12px;
+        margin-bottom: 10px;
+        color: white;
+    }
+
+    .card-text {
+        color: #dbeafe;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+        gap: 24px;
+    }
+
+    .form-card {
+        background: rgba(15,23,42,.88);
+        border: 1px solid rgba(255,255,255,.06);
+        border-radius: 28px;
+        padding: 35px;
+        margin-bottom: 45px;
+    }
+
+    .form-control {
+        background: rgba(255,255,255,.05) !important;
+        border: 1px solid rgba(255,255,255,.08) !important;
+        color: white !important;
+        border-radius: 14px !important;
+        padding: 14px !important;
+    }
+
+        .form-control:focus {
+            box-shadow: none !important;
+            border-color: rgba(59,130,246,.5) !important;
+        }
+
+    .save-btn {
+        background: linear-gradient(135deg, #2563eb, #38bdf8);
+        color: white;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 14px;
+        font-weight: 700;
+    }
+
+        .save-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(37,99,235,.35);
+        }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: white;
+    }
+
+    .history-card {
+        background: rgba(15,23,42,.88);
+        border: 1px solid rgba(255,255,255,.06);
+        border-radius: 20px;
+        padding: 22px;
+    }
+
+    .history-item {
+        background: rgba(255,255,255,.04);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 16px;
+    }
+
+    .badge-ai {
+        background: rgba(34,197,94,.15);
+        color: #4ade80;
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: .8rem;
+        font-weight: 700;
+        border: 1px solid rgba(34,197,94,.2);
+    }
+
+    .progress {
+        height: 12px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.08);
+    }
+
+    .progress-bar {
+        background: linear-gradient(135deg, #2563eb, #38bdf8);
+    }
+
+    .ai-card {
+        background: rgba(15,23,42,.88);
+        border: 1px solid rgba(59,130,246,.2);
+        border-radius: 24px;
+        padding: 30px;
+    }
+
+</style>
+
+<div class="container progress-wrapper">
+
+    <!-- HERO -->
+
+    <div class="hero-card">
+
+        <div class="badge-ai mb-4">
+            AI POWERED HEALTH TRACKING
+        </div>
+
+        <h1 class="hero-title mb-3">
+            Progress & Body Vitals
+        </h1>
+
+        <p class="hero-subtitle">
+
+            Track your daily health metrics,
+            workout performance,
+            hydration,
+            calories,
+            sleep,
+            and transformation progress
+            using intelligent NexFit analytics.
+
+        </p>
+
+    </div>
+
+    <!-- QUICK STATS -->
+
+    <div class="stats-grid mb-5">
+
+        <div class="main-card text-center">
+
+            <div class="card-title">
+                Current Weight
+            </div>
+
+            <div class="card-value">
+                @currentWeight KG
+            </div>
+
+            <div class="card-text">
+                Latest Recorded Weight
+            </div>
+
+        </div>
+
+        <div class="main-card text-center">
+
+            <div class="card-title">
+                BMI
+            </div>
+
+            <div class="card-value">
+                @bmi
+            </div>
+
+            <div class="card-text">
+                @bmiStatus
+            </div>
+
+        </div>
+
+        <div class="main-card text-center">
+
+            <div class="card-title">
+                Calories Burned
+            </div>
+
+            <div class="card-value">
+                @calories
+            </div>
+
+            <div class="card-text">
+                Daily Calories
+            </div>
+
+        </div>
+
+        <div class="main-card text-center">
+
+            <div class="card-title">
+                Goal Completion
+            </div>
+
+            <div class="card-value">
+                @goal%
+            </div>
+
+            <div class="card-text">
+                Daily Fitness Goal
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- EXTRA STATS -->
+
+    <div class="stats-grid mb-5">
+
+        <div class="main-card text-center">
+
+            <div class="card-title">
+                Workout Streak
+            </div>
+
+            <div class="card-value">
+                @streak
+            </div>
+
+            <div class="card-text">
+                Consecutive Workout Days
+            </div>
+
+        </div>
+
+        <div class="main-card text-center">
+
+            <div class="card-title">
+                Churn Risk
+            </div>
+
+            <div class="card-value">
+                @churnRisk%
+            </div>
+
+            <div class="card-text">
+                AI Retention Analysis
+            </div>
+
+        </div>
+
+        <div class="main-card text-center">
+
+            <div class="card-title">
+                Membership
+            </div>
+
+            <div class="card-value">
+                @(user?.SubscriptionActive == true ? "ACTIVE" : "INACTIVE")
+            </div>
+
+            <div class="card-text">
+                Current Subscription Status
+            </div>
+
+        </div>
+
+        <div class="main-card text-center">
+
+            <div class="card-title">
+                Daily Steps
+            </div>
+
+            <div class="card-value">
+                @steps
+            </div>
+
+            <div class="card-text">
+                Walking Activity
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- DAILY ENTRY -->
+
+    <div class="form-card">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <h2 class="section-title mb-1">
+                    Daily Vitals Entry
+                </h2>
+
+                <p class="text-light mb-0">
+                    Update your fitness activity
+                </p>
+
+            </div>
+
+            <span class="badge-ai">
+                LIVE TRACKING
+            </span>
+
+        </div>
+
+        <form asp-controller="Progress"
+              asp-action="SaveVitals"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+
+                    <label class="mb-2">
+                        Weight (KG)
+                    </label>
+
+                    <input type="number"
+                           step="0.1"
+                           name="Weight"
+                           value="@currentWeight"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="mb-2">
+                        Height (CM)
+                    </label>
+
+                    <input type="number"
+                           step="0.1"
+                           name="Height"
+                           value="@height"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="mb-2">
+                        Water Intake (L)
+                    </label>
+
+                    <input type="number"
+                           step="0.1"
+                           name="WaterIntake"
+                           value="@water"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="mb-2">
+                        Sleep Hours
+                    </label>
+
+                    <input type="number"
+                           step="0.1"
+                           name="SleepHours"
+                           value="@sleep"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="mb-2">
+                        Steps Walked
+                    </label>
+
+                    <input type="number"
+                           name="StepsWalked"
+                           value="@steps"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="mb-2">
+                        Workout Minutes
+                    </label>
+
+                    <input type="number"
+                           name="WorkoutMinutes"
+                           value="@workout"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="mb-2">
+                        Calories Burned
+                    </label>
+
+                    <input type="number"
+                           name="CaloriesBurned"
+                           value="@calories"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="mb-2">
+                        Heart Rate
+                    </label>
+
+                    <input type="number"
+                           name="HeartRate"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label class="mb-2">
+                        Mood
+                    </label>
+
+                    <input type="text"
+                           name="Mood"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label class="mb-2">
+                        Exercise Type
+                    </label>
+
+                    <input type="text"
+                           name="ExerciseType"
+                           class="form-control" />
+
+                </div>
+
+            </div>
+
+            <button type="submit"
+                    class="save-btn mt-4">
+
+                Save Daily Progress
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- AI RECOMMENDATION -->
+
+    <div class="ai-card mb-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <div>
+
+                <h3 class="fw-bold text-white mb-1">
+                    AI Fitness Recommendation
+                </h3>
+
+                <p class="text-light mb-0">
+                    Smart Personalized Insight
+                </p>
+
+            </div>
+
+            <span class="badge-ai">
+                AI GENERATED
+            </span>
+
+        </div>
+
+        <p class="card-text mb-0">
+            @aiMessage
+        </p>
+
+    </div>
+
+    <!-- HISTORY -->
+
+    <div>
+
+        <h2 class="section-title mb-4">
+            Daily Progress History
+        </h2>
+
+        @if (Model?.VitalsHistory == null ||
+                !Model.VitalsHistory.Any())
+        {
+            <div class="history-card">
+
+                <p class="mb-0 text-light">
+                    No vitals history found.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            @foreach (var item in Model.VitalsHistory
+                    .OrderByDescending(x => x.Date))
+            {
+                <div class="history-item">
+
+                    <div class="row text-center">
+
+                        <div class="col-md-2">
+
+                            <strong>Date</strong>
+
+                            <br />
+
+                            @item.Date.ToShortDateString()
+
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <strong>Weight</strong>
+
+                            <br />
+
+                            @item.Weight KG
+
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <strong>Calories</strong>
+
+                            <br />
+
+                            @item.CaloriesBurned
+
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <strong>Workout</strong>
+
+                            <br />
+
+                            @item.WorkoutMinutes mins
+
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <strong>Steps</strong>
+
+                            <br />
+
+                            @item.StepsWalked
+
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <strong>Goal</strong>
+
+                            <br />
+
+                            @item.FitnessScore%
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+        }
+
+    </div>
+
+</div>
