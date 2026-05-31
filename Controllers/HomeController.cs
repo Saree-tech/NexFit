@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NexFit.Services;
 using System.Security.Claims;
+using MongoDB.Driver;
 
 namespace NexFit.Controllers
 {
@@ -18,7 +19,9 @@ namespace NexFit.Controllers
             // =========================
             // DEFAULT VALUES
             // =========================
+
             ViewBag.UserName = "Member";
+
             ViewBag.TotalVisits = 0;
             ViewBag.WorkoutStreak = 0;
             ViewBag.GoalCompletion = 0;
@@ -32,11 +35,30 @@ namespace NexFit.Controllers
             ViewBag.SleepHours = 0;
 
             ViewBag.ChurnRisk = 0;
+
             ViewBag.SubscriptionActive = false;
+
+            // =========================
+            // LIVE GYM CAPACITY
+            // =========================
+
+            ViewBag.GymCapacity = 100;
+            ViewBag.CurrentGymUsers = 0;
+
+            // =========================
+            // COUNT USERS INSIDE GYM
+            // =========================
+
+            var activeUsers = await _db.Users
+                .Find(x => x.IsInsideGym == true)
+                .ToListAsync();
+
+            ViewBag.CurrentGymUsers = activeUsers.Count;
 
             // =========================
             // AUTH CHECK
             // =========================
+
             if (User.Identity?.IsAuthenticated == true)
             {
                 var email = User.FindFirstValue(ClaimTypes.Email);
@@ -47,30 +69,59 @@ namespace NexFit.Controllers
 
                     if (user != null)
                     {
-                        ViewBag.UserName = user.FullName ?? "Member";
+                        // =========================
+                        // USER INFO
+                        // =========================
+
+                        ViewBag.UserName =
+                            user.FullName ?? "Member";
 
                         // =========================
-                        // BASIC STATS (NO CALCULATION HERE)
+                        // FITNESS STATS
                         // =========================
-                        ViewBag.TotalVisits = user.TotalVisits;
-                        ViewBag.WorkoutStreak = user.WorkoutStreak;
-                        ViewBag.CaloriesBurned = user.CaloriesBurned;
+
+                        ViewBag.TotalVisits =
+                            user.TotalVisits;
+
+                        ViewBag.WorkoutStreak =
+                            user.WorkoutStreak;
+
+                        ViewBag.CaloriesBurned =
+                            user.CaloriesBurned;
 
                         // =========================
-                        // BODY STATS (FROM PROFILE ONLY)
+                        // BODY STATS
                         // =========================
-                        ViewBag.BMI = user.BMI;
-                        ViewBag.CurrentWeight = user.Weight;
-                        ViewBag.TargetWeight = user.GoalWeight;
 
-                        ViewBag.WaterIntake = user.WaterIntake;
-                        ViewBag.SleepHours = user.SleepHours;
+                        ViewBag.BMI =
+                            user.BMI;
 
-                        ViewBag.ChurnRisk = user.ChurnRisk;
+                        ViewBag.CurrentWeight =
+                            user.Weight;
+
+                        ViewBag.TargetWeight =
+                            user.GoalWeight;
+
+                        ViewBag.WaterIntake =
+                            user.WaterIntake;
+
+                        ViewBag.SleepHours =
+                            user.SleepHours;
 
                         // =========================
-                        // MEMBERSHIP SAFE CHECK (ADMIN SAFE)
+                        // AI ANALYTICS
                         // =========================
+
+                        ViewBag.ChurnRisk =
+                            user.ChurnRisk;
+
+                        ViewBag.GoalCompletion =
+                            user.GoalCompletion;
+
+                        // =========================
+                        // MEMBERSHIP CHECK
+                        // =========================
+
                         bool isAdmin =
                             user.Roles != null &&
                             user.Roles.Contains("Admin");
@@ -85,11 +136,6 @@ namespace NexFit.Controllers
                                 user.MembershipEndDate.HasValue &&
                                 user.MembershipEndDate.Value.Date >= DateTime.UtcNow.Date;
                         }
-
-                        // =========================
-                        // GOAL COMPLETION (FROM PROFILE ONLY)
-                        // =========================
-                        ViewBag.GoalCompletion = user.GoalCompletion;
                     }
                 }
             }
