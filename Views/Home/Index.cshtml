@@ -29,6 +29,7 @@
 }
 
 <style>
+
     body {
         background: #07111f !important;
         color: white;
@@ -50,10 +51,7 @@
         overflow: hidden;
         position: relative;
         border: 1px solid rgba(255,255,255,.07);
-        background:
-            radial-gradient(circle at top right, rgba(59,130,246,.25), transparent 30%),
-            radial-gradient(circle at bottom left, rgba(168,85,247,.18), transparent 30%),
-            linear-gradient(135deg,#081423 0%,#0f1f37 100%);
+        background: radial-gradient(circle at top right, rgba(59,130,246,.25), transparent 30%), radial-gradient(circle at bottom left, rgba(168,85,247,.18), transparent 30%), linear-gradient( 135deg, #081423 0%, #0f1f37 100%);
         box-shadow: 0 25px 70px rgba(0,0,0,.45);
     }
 
@@ -97,11 +95,11 @@
         border: none;
     }
 
-    .hero-btn-primary:hover {
-        transform: translateY(-3px);
-        color: white;
-        box-shadow: 0 12px 30px rgba(37,99,235,.35);
-    }
+        .hero-btn-primary:hover {
+            transform: translateY(-3px);
+            color: white;
+            box-shadow: 0 12px 30px rgba(37,99,235,.35);
+        }
 
     .hero-btn-secondary {
         background: rgba(255,255,255,.05);
@@ -113,10 +111,10 @@
         font-weight: 700;
     }
 
-    .hero-btn-secondary:hover {
-        background: rgba(255,255,255,.1);
-        color: white;
-    }
+        .hero-btn-secondary:hover {
+            background: rgba(255,255,255,.1);
+            color: white;
+        }
 
     .section-title {
         font-size: 2rem;
@@ -138,10 +136,10 @@
         box-shadow: 0 10px 30px rgba(0,0,0,.25);
     }
 
-    .dashboard-card:hover {
-        transform: translateY(-5px);
-        border-color: rgba(56,189,248,.25);
-    }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(56,189,248,.25);
+        }
 
     .dashboard-card-title {
         color: #93c5fd;
@@ -165,20 +163,18 @@
     }
 
     .feature-card {
-        background: linear-gradient(180deg,
-            rgba(15,23,42,.95),
-            rgba(9,15,27,.95));
+        background: linear-gradient( 180deg, rgba(15,23,42,.95), rgba(9,15,27,.95));
         border: 1px solid rgba(255,255,255,.06);
         border-radius: 24px;
         padding: 30px;
         height: 100%;
     }
 
-    .feature-card:hover {
-        transform: translateY(-6px);
-        border-color: rgba(59,130,246,.35);
-        box-shadow: 0 15px 35px rgba(0,0,0,.35);
-    }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(59,130,246,.35);
+            box-shadow: 0 15px 35px rgba(0,0,0,.35);
+        }
 
     .feature-icon {
         width: 65px;
@@ -219,9 +215,9 @@
         color: white;
     }
 
-    .feature-btn-primary:hover {
-        color: white;
-    }
+        .feature-btn-primary:hover {
+            color: white;
+        }
 
     .progress {
         background: rgba(255,255,255,.08);
@@ -249,6 +245,7 @@
         grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
         gap: 25px;
     }
+
 </style>
 
 <div class="container dashboard-wrapper">
@@ -260,17 +257,23 @@
         @if (!IsUserLoggedIn)
         {
             <div class="hero-badge">
+
                 <i class="bi bi-stars"></i>
+
                 NexFit AI Powered Fitness Platform
+
             </div>
 
             <h1 class="hero-title mb-4">
+
                 Train Smarter.<br />
                 Track Better.<br />
                 Transform Faster.
+
             </h1>
 
             <p class="hero-subtitle mb-5">
+
                 NexFit combines Artificial Intelligence,
                 Smart Nutrition Tracking,
                 Attendance Analytics,
@@ -278,6 +281,7 @@
                 SignalR Communication,
                 and Real-Time Fitness Monitoring
                 into one intelligent gym ecosystem.
+
             </p>
 
             <div class="d-flex flex-wrap gap-3">
@@ -287,6 +291,7 @@
                    class="hero-btn-primary">
 
                     <i class="bi bi-rocket-takeoff-fill"></i>
+
                     Create Free Account
 
                 </a>
@@ -304,18 +309,31 @@
         else
         {
             <div class="hero-badge">
+
                 <i class="bi bi-shield-check"></i>
+
                 Dashboard Active
+
             </div>
 
             <h1 class="hero-title mb-3">
+
                 Welcome Back, @UserName
+
             </h1>
 
             <p class="hero-subtitle mb-5">
-                Your AI-powered fitness ecosystem is running successfully.
-                Monitor attendance, progress, body vitals, nutrition,
-                workouts, and smart gym capacity in real-time.
+
+                Your AI-powered fitness ecosystem
+                is running successfully.
+
+                Monitor attendance,
+                progress,
+                workouts,
+                nutrition,
+                and smart gym capacity
+                in real-time.
+
             </p>
 
             @if (ChurnRisk > 60)
@@ -327,8 +345,13 @@
                     </h5>
 
                     <p class="mb-0">
-                        Your recent activity has decreased.
-                        Maintain consistency to improve performance.
+
+                        Your recent activity
+                        has decreased.
+
+                        Maintain consistency
+                        to improve performance.
+
                     </p>
 
                 </div>
@@ -339,15 +362,21 @@
                 <div class="dashboard-card text-center">
 
                     <div class="dashboard-card-title">
+
                         Monthly Visits
+
                     </div>
 
                     <div class="dashboard-card-value">
+
                         @TotalVisits
+
                     </div>
 
                     <div class="dashboard-card-text">
+
                         Gym Check-ins
+
                     </div>
 
                 </div>
@@ -355,15 +384,21 @@
                 <div class="dashboard-card text-center">
 
                     <div class="dashboard-card-title">
+
                         Workout Streak
+
                     </div>
 
                     <div class="dashboard-card-value">
+
                         @WorkoutStreak
+
                     </div>
 
                     <div class="dashboard-card-text">
+
                         Consecutive Days
+
                     </div>
 
                 </div>
@@ -371,15 +406,21 @@
                 <div class="dashboard-card text-center">
 
                     <div class="dashboard-card-title">
+
                         Membership
+
                     </div>
 
                     <div class="dashboard-card-value">
+
                         @(SubscriptionActive ? "ACTIVE" : "EXPIRED")
+
                     </div>
 
                     <div class="dashboard-card-text">
+
                         Current Status
+
                     </div>
 
                 </div>
@@ -387,15 +428,21 @@
                 <div class="dashboard-card text-center">
 
                     <div class="dashboard-card-title">
+
                         Goal Completion
+
                     </div>
 
                     <div class="dashboard-card-value">
+
                         @GoalCompletion%
+
                     </div>
 
                     <div class="dashboard-card-text">
+
                         Progress Achieved
+
                     </div>
 
                 </div>
@@ -414,6 +461,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
 
                 <div>
+
                     <h2 class="section-title">
                         Fitness Analytics
                     </h2>
@@ -421,6 +469,7 @@
                     <p class="section-subtitle">
                         Smart AI-generated member insights
                     </p>
+
                 </div>
 
                 <div class="mini-badge">
@@ -504,17 +553,24 @@
                     <div class="dashboard-card">
 
                         <h5 class="fw-bold text-white mb-3">
+
                             AI Churn Prediction
+
                         </h5>
 
                         <div class="dashboard-card-value">
+
                             @ChurnRisk%
+
                         </div>
 
                         <div class="dashboard-card-text">
+
                             AI-based inactivity prediction generated from:
-                            attendance, workout engagement,
+                            attendance,
+                            workout engagement,
                             and membership activity.
+
                         </div>
 
                     </div>
@@ -525,86 +581,14 @@
 
         </div>
 
-        <!-- BODY VITALS -->
+        <!-- LIVE GYM CAPACITY -->
 
         <div class="mb-5">
 
             <h2 class="section-title mb-4">
-                Body Vitals
-            </h2>
 
-            <div class="row g-4">
-
-                <div class="col-md-4">
-
-                    <div class="dashboard-card text-center">
-
-                        <div class="dashboard-card-title">
-                            Current BMI
-                        </div>
-
-                        <div class="dashboard-card-value">
-                            @BMI
-                        </div>
-
-                        <div class="dashboard-card-text">
-                            Body Mass Index Tracking
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="dashboard-card text-center">
-
-                        <div class="dashboard-card-title">
-                            Water Intake
-                        </div>
-
-                        <div class="dashboard-card-value">
-                            @WaterIntake L
-                        </div>
-
-                        <div class="dashboard-card-text">
-                            Daily Hydration Monitoring
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="dashboard-card text-center">
-
-                        <div class="dashboard-card-title">
-                            Sleep Tracking
-                        </div>
-
-                        <div class="dashboard-card-value">
-                            @SleepHours hrs
-                        </div>
-
-                        <div class="dashboard-card-text">
-                            Recovery & Sleep Analytics
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- GYM LIVE CAPACITY -->
-
-        <div class="mb-5">
-
-            <h2 class="section-title mb-4">
                 Live Gym Capacity
+
             </h2>
 
             <div class="row g-4">
@@ -616,21 +600,26 @@
                         <div class="d-flex justify-content-between align-items-center mb-3">
 
                             <h4 class="text-white fw-bold mb-0">
+
                                 Current Gym Crowd
+
                             </h4>
 
                             @if (CapacityPercentage < 50)
                             {
                                 <span class="mini-badge">
+
                                     BEST TIME TO GO
+
                                 </span>
                             }
                             else if (CapacityPercentage < 80)
                             {
                                 <span class="mini-badge"
-                                      style="background:rgba(250,204,21,.15);
-                                      color:#facc15;
-                                      border-color:rgba(250,204,21,.2);">
+                                      style="
+                                              background:rgba(250,204,21,.15);
+                                              color:#facc15;
+                                              border-color:rgba(250,204,21,.2);">
 
                                     MODERATE CROWD
 
@@ -639,9 +628,10 @@
                             else
                             {
                                 <span class="mini-badge"
-                                      style="background:rgba(248,113,113,.15);
-                                      color:#f87171;
-                                      border-color:rgba(248,113,113,.2);">
+                                      style="
+                                              background:rgba(248,113,113,.15);
+                                              color:#f87171;
+                                              border-color:rgba(248,113,113,.2);">
 
                                     HIGH CROWD
 
@@ -651,7 +641,9 @@
                         </div>
 
                         <div class="dashboard-card-value">
+
                             @CurrentGymUsers / @GymCapacity
+
                         </div>
 
                         <div class="progress mb-4">
@@ -669,8 +661,8 @@
 
                             <br />
 
-                            Live attendance tracking helps members decide
-                            the best time to visit the gym.
+                            Live attendance tracking helps members
+                            decide the best time to visit the gym.
 
                         </div>
 
@@ -683,7 +675,9 @@
                     <div class="dashboard-card">
 
                         <h5 class="fw-bold text-white mb-3">
+
                             Attendance System
+
                         </h5>
 
                         <p class="dashboard-card-text mb-4">
@@ -697,10 +691,10 @@
 
                         </p>
 
-                        <a href="/Attendance/CheckIn"
+                        <a href="/Attendance"
                            class="feature-btn feature-btn-primary">
 
-                            Mark Attendance
+                            View Attendance
 
                         </a>
 
@@ -712,7 +706,7 @@
 
         </div>
 
-        <!-- AI RECOMMENDATION -->
+        <!-- AI FITNESS RECOMMENDATION -->
 
         <div class="dashboard-card mb-5">
 
@@ -721,17 +715,23 @@
                 <div>
 
                     <h3 class="text-white fw-bold mb-1">
+
                         AI Fitness Recommendation
+
                     </h3>
 
                     <p class="text-light mb-0">
+
                         Personalized Smart Suggestion
+
                     </p>
 
                 </div>
 
                 <span class="mini-badge">
+
                     AI GENERATED
+
                 </span>
 
             </div>
@@ -741,8 +741,10 @@
                 <p class="dashboard-card-text mb-0">
 
                     Your workout consistency is currently low.
-                    Increase attendance and maintain regular workouts
-                    to improve body performance and reduce churn risk.
+
+                    Increase attendance and maintain
+                    regular workouts to improve body
+                    performance and reduce churn risk.
 
                 </p>
             }
@@ -751,6 +753,7 @@
                 <p class="dashboard-card-text mb-0">
 
                     Excellent consistency detected.
+
                     Your engagement and fitness progress
                     are improving steadily.
 
@@ -760,16 +763,20 @@
         </div>
     }
 
-    <!-- FEATURES -->
+    <!-- SMART MODULES -->
 
     <div class="mb-4">
 
         <h2 class="section-title">
+
             Smart Fitness Modules
+
         </h2>
 
         <p class="section-subtitle">
+
             AI-powered modules integrated into NexFit ecosystem
+
         </p>
 
     </div>
@@ -783,7 +790,8 @@
             <div class="feature-card">
 
                 <div class="feature-icon"
-                     style="background:rgba(59,130,246,.15);
+                     style="
+                     background:rgba(59,130,246,.15);
                      color:#38bdf8;">
 
                     <i class="bi bi-person-circle"></i>
@@ -791,19 +799,175 @@
                 </div>
 
                 <h4 class="feature-title">
+
                     Athlete Profile
+
                 </h4>
 
                 <p class="feature-description">
-                    Manage body vitals, fitness goals,
-                    injuries, activity level,
+
+                    Manage body vitals,
+                    fitness goals,
+                    injuries,
+                    activity level,
                     and personal profile settings.
+
                 </p>
 
                 <a href="/Profile"
                    class="feature-btn feature-btn-primary">
 
                     Open Profile
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- PROGRESS & VITALS -->
+
+        <div class="col-lg-4">
+
+            <div class="feature-card">
+
+                <div class="feature-icon"
+                     style="
+                     background:rgba(14,165,233,.15);
+                     color:#38bdf8;">
+
+                    <i class="bi bi-heart-pulse-fill"></i>
+
+                </div>
+
+                <h4 class="feature-title">
+
+                    Progress & Vitals
+
+                </h4>
+
+                <p class="feature-description">
+
+                    Track your daily body vitals,
+                    hydration,
+                    sleep,
+                    workouts,
+                    calories burned,
+                    weight progress,
+                    exercise activity,
+                    and overall fitness improvement
+                    using smart analytics.
+
+                </p>
+
+                <div class="mt-3 mb-3">
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <small class="text-light">
+                            Daily Goal Progress
+                        </small>
+
+                        <small class="text-info fw-bold">
+                            @GoalCompletion%
+                        </small>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div class="progress-bar"
+                             style="width:@GoalCompletion%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row text-center mt-4">
+
+                    <div class="col-4">
+
+                        <div class="fw-bold text-white">
+                            @BMI
+                        </div>
+
+                        <small class="text-light">
+                            BMI
+                        </small>
+
+                    </div>
+
+                    <div class="col-4">
+
+                        <div class="fw-bold text-white">
+                            @WaterIntake L
+                        </div>
+
+                        <small class="text-light">
+                            Water
+                        </small>
+
+                    </div>
+
+                    <div class="col-4">
+
+                        <div class="fw-bold text-white">
+                            @SleepHours h
+                        </div>
+
+                        <small class="text-light">
+                            Sleep
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <a href="/Progress"
+                   class="feature-btn feature-btn-primary">
+
+                    Open Progress Tracker
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- ATTENDANCE -->
+
+        <div class="col-lg-4">
+
+            <div class="feature-card">
+
+                <div class="feature-icon"
+                     style="
+                     background:rgba(249,115,22,.15);
+                     color:#fb923c;">
+
+                    <i class="bi bi-clipboard-check-fill"></i>
+
+                </div>
+
+                <h4 class="feature-title">
+
+                    Attendance Tracker
+
+                </h4>
+
+                <p class="feature-description">
+
+                    Track gym check-ins,
+                    monitor attendance history,
+                    and analyze workout consistency.
+
+                </p>
+
+                <a href="/Attendance"
+                   class="feature-btn feature-btn-primary">
+
+                    View Attendance
 
                 </a>
 
@@ -818,7 +982,8 @@
             <div class="feature-card">
 
                 <div class="feature-icon"
-                     style="background:rgba(59,130,246,.15);
+                     style="
+                     background:rgba(59,130,246,.15);
                      color:#38bdf8;">
 
                     <i class="bi bi-camera-video-fill"></i>
@@ -826,12 +991,16 @@
                 </div>
 
                 <h4 class="feature-title">
+
                     AI Posture Detection
+
                 </h4>
 
                 <p class="feature-description">
-                    Analyze workout posture using
-                    AI-powered body movement tracking.
+
+                    Analyze workout posture
+                    using AI-powered body movement tracking.
+
                 </p>
 
                 <a asp-controller="AI"
@@ -853,7 +1022,8 @@
             <div class="feature-card">
 
                 <div class="feature-icon"
-                     style="background:rgba(34,197,94,.15);
+                     style="
+                     background:rgba(34,197,94,.15);
                      color:#4ade80;">
 
                     <i class="bi bi-camera-fill"></i>
@@ -861,12 +1031,17 @@
                 </div>
 
                 <h4 class="feature-title">
+
                     Smart Diet Scanner
+
                 </h4>
 
                 <p class="feature-description">
-                    Upload food images and receive calorie
-                    and nutrition analysis instantly.
+
+                    Upload food images
+                    and receive calorie and nutrition
+                    analysis instantly.
+
                 </p>
 
                 <a asp-controller="AI"
@@ -881,75 +1056,6 @@
 
         </div>
 
-        <!-- CHAT -->
-
-        <div class="col-lg-4">
-
-            <div class="feature-card">
-
-                <div class="feature-icon"
-                     style="background:rgba(168,85,247,.15);
-                     color:#c084fc;">
-
-                    <i class="bi bi-chat-dots-fill"></i>
-
-                </div>
-
-                <h4 class="feature-title">
-                    Trainer Live Chat
-                </h4>
-
-                <p class="feature-description">
-                    Real-time SignalR communication
-                    between trainers and members.
-                </p>
-
-                <a href="/Chat/Trainer"
-                   class="feature-btn feature-btn-primary">
-
-                    Open Chat
-
-                </a>
-
-            </div>
-
-        </div>
-
-        <!-- ATTENDANCE -->
-
-        <div class="col-lg-4">
-
-            <div class="feature-card">
-
-                <div class="feature-icon"
-                     style="background:rgba(249,115,22,.15);
-                     color:#fb923c;">
-
-                    <i class="bi bi-clipboard-check-fill"></i>
-
-                </div>
-
-                <h4 class="feature-title">
-                    Attendance Tracker
-                </h4>
-
-                <p class="feature-description">
-                    Track gym check-ins,
-                    monitor attendance history,
-                    and analyze workout consistency.
-                </p>
-
-                <a href="/Attendance"
-                   class="feature-btn feature-btn-primary">
-
-                    View Attendance
-
-                </a>
-
-            </div>
-
-        </div>
-
         <!-- WORKOUT -->
 
         <div class="col-lg-4">
@@ -957,7 +1063,8 @@
             <div class="feature-card">
 
                 <div class="feature-icon"
-                     style="background:rgba(236,72,153,.15);
+                     style="
+                     background:rgba(236,72,153,.15);
                      color:#f472b6;">
 
                     <i class="bi bi-lightning-charge-fill"></i>
@@ -965,13 +1072,19 @@
                 </div>
 
                 <h4 class="feature-title">
+
                     AI Workout Generator
+
                 </h4>
 
                 <p class="feature-description">
+
                     Generate intelligent workouts
-                    based on goals, injuries,
-                    BMI, and fitness level.
+                    based on goals,
+                    injuries,
+                    BMI,
+                    and fitness level.
+
                 </p>
 
                 <a asp-controller="AI"
@@ -985,6 +1098,51 @@
             </div>
 
         </div>
+
+        <!-- TRAINER CHAT -->
+
+        <div class="col-lg-4">
+
+            <div class="feature-card">
+
+                <div class="feature-icon"
+                     style="
+         background:rgba(168,85,247,.15);
+         color:#c084fc;">
+
+                    <i class="bi bi-chat-dots-fill"></i>
+
+                </div>
+
+                <h4 class="feature-title">
+
+                    Trainer Live Chat
+
+                </h4>
+
+                <p class="feature-description">
+
+                    Real-time SignalR communication
+                    between trainers and members.
+
+                    Chat instantly with gym trainers,
+                    receive workout guidance,
+                    nutrition suggestions,
+                    and live fitness support.
+
+                </p>
+
+                <a href="/Chat/Trainer"
+                   class="feature-btn feature-btn-primary">
+
+                    Open Live Chat
+
+                </a>
+
+            </div>
+
+        </div>
+
 
     </div>
 
