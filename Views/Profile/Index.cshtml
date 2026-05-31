@@ -5,134 +5,130 @@
 }
 
 <div class="container py-5">
-    <div class="row">
 
-        <!-- LEFT SIDE: Profile Form (Aapka Pehle Wala Kaam) -->
-        <div class="col-lg-8 mb-4">
-            <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-body p-5">
-                    <h2 class="fw-bold mb-4">My Fitness Profile</h2>
+    <div class="card shadow-lg border-0 rounded-4">
 
-                    @if (TempData["Success"] != null)
-                    {
-                        <div class="alert alert-success">
-                            @TempData["Success"]
-                        </div>
-                    }
+        <div class="card-body p-5">
 
-                    <form asp-action="Update" method="post">
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label">FullName</label>
-                                <input asp-for="FullName" class="form-control" />
-                            </div>
+            <h2 class="fw-bold mb-4">
+                My Fitness Profile
+            </h2>
 
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label">Age</label>
-                                <input asp-for="Age" type="number" class="form-control" />
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label">Gender</label>
-                                <select asp-for="Gender" class="form-select">
-                                    <option>Male</option>
-                                    <option>Female</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label">Height (CM)</label>
-                                <input asp-for="Height" type="number" class="form-control" />
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label">Current Weight</label>
-                                <input asp-for="Weight" type="number" class="form-control" />
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label">Goal Weight</label>
-                                <input asp-for="GoalWeight" type="number" class="form-control" />
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label">Fitness Goal</label>
-                                <input asp-for="FitnessGoal" class="form-control" />
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <label class="form-label">Activity Level</label>
-                                <select asp-for="ActivityLevel" class="form-select">
-                                    <option>Beginner</option>
-                                    <option>Intermediate</option>
-                                    <option>Advanced</option>
-                                </select>
-                            </div>
-
-                            <div class="col-12 mb-4">
-                                <label class="form-label">Bio</label>
-                                <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-lg">Save Profile</button>
-                    </form>
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["Success"]
                 </div>
-            </div>
-        </div>
+            }
 
-        <!-- RIGHT SIDE: Live Capacity Meter & Gamification Sidebar (Naya Kaam) -->
-        <div class="col-lg-4">
+            <form asp-action="Update" method="post">
 
-            <!-- 1. LIVE CAPACITY METER COMPONENT -->
-            <div class="mb-4">
-                <component type="typeof(NexFit.Components.GymCapacityMeter)" render-mode="ServerPrerendered" />
-            </div>
+                <div class="row">
 
-            <!-- 2. GAMIFICATION & QR PASS CARD -->
-            <div class="card shadow-lg border-0 rounded-4 text-center p-4">
-                <div class="card-body">
-                    <h4 class="fw-bold text-dark mb-3">🔥 My Fitness Dashboard</h4>
-                    <hr />
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Full Name</label>
 
-                    <!-- Workout Streak -->
-                    <div class="mb-4">
-                        <span style="font-size: 2.5rem;">⚡</span>
-                        <h5 class="fw-bold mb-0">5 Day Streak</h5>
-                        <small class="text-muted">Keep it up! Consistency is key.</small>
+                        <input asp-for="FullName"
+                               class="form-control" />
                     </div>
 
-                    <!-- Earned Badges -->
-                    <div class="mb-4">
-                        <h6 class="fw-bold text-start mb-2">🏅 Earned Badges:</h6>
-                        <div class="d-flex justify-content-start gap-2 flex-wrap">
-                            <span class="badge bg-warning text-dark p-2">🏋️ Early Bird</span>
-                            <span class="badge bg-info text-white p-2">🔥 Cardio King</span>
-                            <span class="badge bg-success text-white p-2">💪 Gym Starter</span>
-                        </div>
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Age</label>
+
+                        <input asp-for="Age"
+                               type="number"
+                               class="form-control" />
                     </div>
 
-                    <hr />
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">Gender</label>
 
-                    <!-- QR Guest Day Pass -->
-                    <div class="my-3">
-                        <h6 class="fw-bold mb-2">🎫 Digital Entry Pass</h6>
-                        <p class="text-muted small">Scan this at the reception for quick check-in.</p>
+                        <select asp-for="Gender"
+                                class="form-select">
 
-                        <!-- Simple static mock QR code image path or representation -->
-                        <div class="p-3 bg-light d-inline-block rounded-3 border">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=NexFit-Member-Pass-Laraib"
-                                 alt="QR Code Pass"
-                                 class="img-fluid"
-                                 style="max-width: 150px;" />
-                        </div>
-                        <div class="mt-2 text-primary font-weight-bold small">ID: NEXFIT-MEMBER-LIVE</div>
+                            <option>Male</option>
+                            <option>Female</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">
+                            Height (CM)
+                        </label>
+
+                        <input asp-for="Height"
+                               type="number"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">
+                            Current Weight
+                        </label>
+
+                        <input asp-for="Weight"
+                               type="number"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">
+                            Goal Weight
+                        </label>
+
+                        <input asp-for="GoalWeight"
+                               type="number"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">
+                            Fitness Goal
+                        </label>
+
+                        <input asp-for="FitnessGoal"
+                               class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+                        <label class="form-label">
+                            Activity Level
+                        </label>
+
+                        <select asp-for="ActivityLevel"
+                                class="form-select">
+
+                            <option>Beginner</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-12 mb-4">
+                        <label class="form-label">
+                            Bio
+                        </label>
+
+                        <textarea asp-for="Bio"
+                                  class="form-control"
+                                  rows="4"></textarea>
                     </div>
 
                 </div>
-            </div>
+
+                <button type="submit"
+                        class="btn btn-primary btn-lg">
+
+                    Save Profile
+
+                </button>
+
+            </form>
 
         </div>
 
     </div>
+
 </div>
