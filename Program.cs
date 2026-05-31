@@ -13,6 +13,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<MongoDbRepository>();
 builder.Services.AddScoped<DashboardService>();
 
+// AI Module Services (Farkhanda - Module 1)
+builder.Services.AddScoped<DietSnapService>();
+builder.Services.AddScoped<PostureService>();
+builder.Services.AddScoped<WorkoutService>();
+builder.Services.AddHttpClient();
+
 // =========================
 // AUTHENTICATION (COOKIE)
 // =========================

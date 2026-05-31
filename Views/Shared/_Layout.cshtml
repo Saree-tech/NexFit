@@ -11,11 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* Base Scaffolding Structuring */
-        html, body {
-            height: 100%;
-        }
-
+        html, body { height: 100%; }
         body {
             background-color: #0b0f19;
             color: #f8fafc;
@@ -24,8 +20,6 @@
             display: flex;
             flex-direction: column;
         }
-
-        /* Modern Glassmorphic Glowing Navbar */
         .premium-nav {
             background: rgba(15, 23, 42, 0.85) !important;
             backdrop-filter: blur(16px);
@@ -35,7 +29,6 @@
             transition: all 0.3s ease;
             z-index: 1050;
         }
-
         .navbar-brand-premium {
             font-weight: 800;
             font-size: 1.45rem;
@@ -44,7 +37,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .nav-link-premium {
             color: #94a3b8 !important;
             font-weight: 600;
@@ -53,13 +45,10 @@
             border-radius: 8px;
             transition: all 0.2s ease;
         }
-
-            .nav-link-premium:hover, .nav-link-premium.active {
-                color: #f8fafc !important;
-                background: rgba(255, 255, 255, 0.04);
-            }
-
-        /* High-End Linear Button Flow */
+        .nav-link-premium:hover, .nav-link-premium.active {
+            color: #f8fafc !important;
+            background: rgba(255, 255, 255, 0.04);
+        }
         .btn-nav-auth {
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
             color: white !important;
@@ -70,34 +59,20 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
             transition: all 0.2s ease;
         }
-
-            .btn-nav-auth:hover {
-                transform: translateY(-1px);
-                box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
-                color: white !important;
-            }
-
-        /* Dynamic Main Area Growth Buffer */
-        .main-body-wrapper {
-            flex: 1 0 auto;
+        .btn-nav-auth:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+            color: white !important;
         }
-
-        /* System Structural Sticky Footer */
+        .main-body-wrapper { flex: 1 0 auto; }
         footer {
             flex-shrink: 0;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             background-color: #080c14;
             color: #475569;
         }
-
-        .footer-link {
-            color: #64748b !important;
-            transition: color 0.2s ease;
-        }
-
-            .footer-link:hover {
-                color: #38bdf8 !important;
-            }
+        .footer-link { color: #64748b !important; transition: color 0.2s ease; }
+        .footer-link:hover { color: #38bdf8 !important; }
     </style>
 </head>
 <body>
@@ -121,11 +96,28 @@
                     <li class="nav-item">
                         <a class="nav-link nav-link-premium" href="/#features">Smart Features</a>
                     </li>
+
+                    <!-- ✅ Farkhanda - AI Module Links -->
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-premium" asp-controller="AI" asp-action="DietSnap">
+                            <i class="bi bi-camera-fill me-1"></i>Diet Snap
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-premium" asp-controller="AI" asp-action="VideoUpload">
+                            <i class="bi bi-camera-video-fill me-1"></i>Posture
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-premium" asp-controller="AI" asp-action="WorkoutArchitect">
+                            <i class="bi bi-lightning-charge-fill me-1"></i>Workout AI
+                        </a>
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link nav-link-premium"
                            asp-controller="Profile"
                            asp-action="Index">
-
                             <i class="bi bi-person-circle me-1"></i>
                             Profile
                         </a>
