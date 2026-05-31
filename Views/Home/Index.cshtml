@@ -29,235 +29,36 @@
 }
 
 <style>
-
-    body {
-        background: #07111f !important;
-        color: white;
-        overflow-x: hidden;
-    }
-
-    * {
-        transition: all .25s ease;
-    }
-
-    .dashboard-wrapper {
-        padding-top: 40px;
-        padding-bottom: 70px;
-    }
-
-    .hero-section {
-        border-radius: 32px;
-        padding: 60px;
-        overflow: hidden;
-        position: relative;
-        border: 1px solid rgba(255,255,255,.07);
-        background: radial-gradient(circle at top right, rgba(59,130,246,.25), transparent 30%), radial-gradient(circle at bottom left, rgba(168,85,247,.18), transparent 30%), linear-gradient(135deg,#081423 0%,#0f1f37 100%);
-        box-shadow: 0 25px 70px rgba(0,0,0,.45);
-    }
-
-    .hero-title {
-        font-size: 3.4rem;
-        font-weight: 800;
-        line-height: 1.1;
-        color: white;
-    }
-
-    .hero-subtitle {
-        color: #dbeafe;
-        max-width: 720px;
-        font-size: 1.1rem;
-        line-height: 1.8;
-    }
-
-    .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 18px;
-        border-radius: 999px;
-        margin-bottom: 25px;
-        font-weight: 700;
-        color: #7dd3fc;
-        background: rgba(59,130,246,.12);
-        border: 1px solid rgba(59,130,246,.25);
-    }
-
-    .hero-btn-primary {
-        background: linear-gradient(135deg,#2563eb,#38bdf8);
-        color: white;
-        padding: 15px 28px;
-        border-radius: 14px;
-        font-weight: 700;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        border: none;
-    }
-
-        .hero-btn-primary:hover {
-            transform: translateY(-3px);
-            color: white;
-            box-shadow: 0 12px 30px rgba(37,99,235,.35);
-        }
-
-    .hero-btn-secondary {
-        background: rgba(255,255,255,.05);
-        border: 1px solid rgba(255,255,255,.1);
-        color: white;
-        padding: 15px 28px;
-        border-radius: 14px;
-        text-decoration: none;
-        font-weight: 700;
-    }
-
-        .hero-btn-secondary:hover {
-            background: rgba(255,255,255,.1);
-            color: white;
-        }
-
-    .section-title {
-        font-size: 2rem;
-        font-weight: 800;
-        color: white;
-    }
-
-    .section-subtitle {
-        color: #cbd5e1;
-    }
-
-    .dashboard-card {
-        background: rgba(15,23,42,.82);
-        border: 1px solid rgba(255,255,255,.06);
-        border-radius: 24px;
-        padding: 28px;
-        height: 100%;
-        backdrop-filter: blur(12px);
-        box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    }
-
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(56,189,248,.25);
-        }
-
-    .dashboard-card-title {
-        color: #93c5fd;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-size: .9rem;
-        font-weight: 700;
-    }
-
-    .dashboard-card-value {
-        color: white;
-        font-size: 2.3rem;
-        font-weight: 800;
-        margin-top: 14px;
-        margin-bottom: 10px;
-    }
-
-    .dashboard-card-text {
-        color: #dbeafe;
-        line-height: 1.7;
-    }
-
-    .feature-card {
-        background: linear-gradient(180deg, rgba(15,23,42,.95), rgba(9,15,27,.95));
-        border: 1px solid rgba(255,255,255,.06);
-        border-radius: 24px;
-        padding: 30px;
-        height: 100%;
-    }
-
-        .feature-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(59,130,246,.35);
-            box-shadow: 0 15px 35px rgba(0,0,0,.35);
-        }
-
-    .feature-icon {
-        width: 65px;
-        height: 65px;
-        border-radius: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 22px;
-        font-size: 1.5rem;
-    }
-
-    .feature-title {
-        color: white;
-        font-size: 1.3rem;
-        font-weight: 700;
-        margin-bottom: 14px;
-    }
-
-    .feature-description {
-        color: #dbeafe;
-        line-height: 1.8;
-    }
-
-    .feature-btn {
-        margin-top: 24px;
-        width: 100%;
-        border-radius: 12px;
-        padding: 12px;
-        font-weight: 700;
-        text-decoration: none;
-        display: inline-block;
-        text-align: center;
-    }
-
-    .feature-btn-primary {
-        background: linear-gradient(135deg,#2563eb,#38bdf8);
-        color: white;
-    }
-
-        .feature-btn-primary:hover {
-            color: white;
-        }
-
-    .progress {
-        background: rgba(255,255,255,.08);
-        height: 10px;
-        border-radius: 999px;
-        overflow: hidden;
-    }
-
-    .progress-bar {
-        background: linear-gradient(135deg,#2563eb,#38bdf8);
-    }
-
-    .mini-badge {
-        padding: 8px 14px;
-        border-radius: 999px;
-        font-size: .8rem;
-        font-weight: 700;
-        background: rgba(34,197,94,.15);
-        color: #4ade80;
-        border: 1px solid rgba(34,197,94,.2);
-    }
-
-    .capacity-good {
-        color: #4ade80;
-    }
-
-    .capacity-medium {
-        color: #facc15;
-    }
-
-    .capacity-high {
-        color: #f87171;
-    }
-
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-        gap: 25px;
-    }
-
+    body { background: #07111f !important; color: white; overflow-x: hidden; }
+    * { transition: all .25s ease; }
+    .dashboard-wrapper { padding-top: 40px; padding-bottom: 70px; }
+    .hero-section { border-radius: 32px; padding: 60px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,.07); background: radial-gradient(circle at top right, rgba(59,130,246,.25), transparent 30%), radial-gradient(circle at bottom left, rgba(168,85,247,.18), transparent 30%), linear-gradient(135deg,#081423 0%,#0f1f37 100%); box-shadow: 0 25px 70px rgba(0,0,0,.45); }
+    .hero-title { font-size: 3.4rem; font-weight: 800; line-height: 1.1; color: white; }
+    .hero-subtitle { color: #dbeafe; max-width: 720px; font-size: 1.1rem; line-height: 1.8; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; margin-bottom: 25px; font-weight: 700; color: #7dd3fc; background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.25); }
+    .hero-btn-primary { background: linear-gradient(135deg,#2563eb,#38bdf8); color: white; padding: 15px 28px; border-radius: 14px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; border: none; }
+    .hero-btn-primary:hover { transform: translateY(-3px); color: white; box-shadow: 0 12px 30px rgba(37,99,235,.35); }
+    .hero-btn-secondary { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); color: white; padding: 15px 28px; border-radius: 14px; text-decoration: none; font-weight: 700; }
+    .hero-btn-secondary:hover { background: rgba(255,255,255,.1); color: white; }
+    .section-title { font-size: 2rem; font-weight: 800; color: white; }
+    .section-subtitle { color: #cbd5e1; }
+    .dashboard-card { background: rgba(15,23,42,.82); border: 1px solid rgba(255,255,255,.06); border-radius: 24px; padding: 28px; height: 100%; backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+    .dashboard-card:hover { transform: translateY(-5px); border-color: rgba(56,189,248,.25); }
+    .dashboard-card-title { color: #93c5fd; text-transform: uppercase; letter-spacing: 1px; font-size: .9rem; font-weight: 700; }
+    .dashboard-card-value { color: white; font-size: 2.3rem; font-weight: 800; margin-top: 14px; margin-bottom: 10px; }
+    .dashboard-card-text { color: #dbeafe; line-height: 1.7; }
+    .feature-card { background: linear-gradient(180deg, rgba(15,23,42,.95), rgba(9,15,27,.95)); border: 1px solid rgba(255,255,255,.06); border-radius: 24px; padding: 30px; height: 100%; }
+    .feature-card:hover { transform: translateY(-6px); border-color: rgba(59,130,246,.35); box-shadow: 0 15px 35px rgba(0,0,0,.35); }
+    .feature-icon { width: 65px; height: 65px; border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 22px; font-size: 1.5rem; }
+    .feature-title { color: white; font-size: 1.3rem; font-weight: 700; margin-bottom: 14px; }
+    .feature-description { color: #dbeafe; line-height: 1.8; }
+    .feature-btn { margin-top: 24px; width: 100%; border-radius: 12px; padding: 12px; font-weight: 700; text-decoration: none; display: inline-block; text-align: center; }
+    .feature-btn-primary { background: linear-gradient(135deg,#2563eb,#38bdf8); color: white; }
+    .feature-btn-primary:hover { color: white; }
+    .progress { background: rgba(255,255,255,.08); height: 10px; border-radius: 999px; overflow: hidden; }
+    .progress-bar { background: linear-gradient(135deg,#2563eb,#38bdf8); }
+    .mini-badge { padding: 8px 14px; border-radius: 999px; font-size: .8rem; font-weight: 700; background: rgba(34,197,94,.15); color: #4ade80; border: 1px solid rgba(34,197,94,.2); }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 25px; }
 </style>
 
 <div class="container dashboard-wrapper">
@@ -268,84 +69,33 @@
 
         @if (!IsUserLoggedIn)
         {
-            <div class="hero-badge">
-                <i class="bi bi-stars"></i>
-                NexFit AI Powered Fitness Platform
-            </div>
-
-            <h1 class="hero-title mb-4">
-                Train Smarter.<br />
-                Track Better.<br />
-                Transform Faster.
-            </h1>
-
-            <p class="hero-subtitle mb-5">
-                NexFit combines Artificial Intelligence,
-                Smart Nutrition Tracking,
-                Attendance Analytics,
-                ML.NET Predictions,
-                SignalR Communication,
-                and Real-Time Fitness Monitoring
-                into one intelligent gym ecosystem.
-            </p>
-
+            <div class="hero-badge"><i class="bi bi-stars"></i> NexFit AI Powered Fitness Platform</div>
+            <h1 class="hero-title mb-4">Train Smarter.<br />Track Better.<br />Transform Faster.</h1>
+            <p class="hero-subtitle mb-5">NexFit combines Artificial Intelligence, Smart Nutrition Tracking, Attendance Analytics, ML.NET Predictions, SignalR Communication, and Real-Time Fitness Monitoring into one intelligent gym ecosystem.</p>
             <div class="d-flex flex-wrap gap-3">
-
-                <a asp-controller="Auth"
-                   asp-action="Register"
-                   class="hero-btn-primary">
-                    <i class="bi bi-rocket-takeoff-fill"></i>
-                    Create Free Account
-                </a>
-
-                <a asp-controller="Auth"
-                   asp-action="Login"
-                   class="hero-btn-secondary">
-                    Login To Dashboard
-                </a>
-
+                <a asp-controller="Auth" asp-action="Register" class="hero-btn-primary"><i class="bi bi-rocket-takeoff-fill"></i> Create Free Account</a>
+                <a asp-controller="Auth" asp-action="Login" class="hero-btn-secondary">Login To Dashboard</a>
             </div>
         }
         else
         {
-            <div class="hero-badge">
-                <i class="bi bi-shield-check"></i>
-                Dashboard Active
-            </div>
-
-            <h1 class="hero-title mb-3">
-                Welcome Back, @UserName
-            </h1>
-
-            <p class="hero-subtitle mb-5">
-                Your AI-powered fitness ecosystem is running successfully.
-                Monitor attendance, progress, body vitals,
-                nutrition, workouts, and smart gym capacity in real-time.
-            </p>
-
+            <div class="hero-badge"><i class="bi bi-shield-check"></i> Dashboard Active</div>
+            <h1 class="hero-title mb-3">Welcome Back, @UserName</h1>
+            <p class="hero-subtitle mb-5">Your AI-powered fitness ecosystem is running successfully. Monitor attendance, progress, body vitals, nutrition, workouts, and smart gym capacity in real-time.</p>
             @if (ChurnRisk > 60)
             {
                 <div class="alert alert-danger border-0 rounded-4 p-4 mb-4">
-
-                    <h5 class="fw-bold">
-                        AI Retention Alert
-                    </h5>
-
-                    <p class="mb-0">
-                        Your recent activity has decreased.
-                        Maintain consistency to improve performance.
-                    </p>
-
+                    <h5 class="fw-bold">AI Retention Alert</h5>
+                    <p class="mb-0">Your recent activity has decreased. Maintain consistency to improve performance.</p>
                 </div>
             }
 
             <div class="stats-grid">
-
-                <div class="dashboard-card text-center">
-
-                    <div class="dashboard-card-title">
-                        Monthly Visits
-                    </div>
+                <div class="dashboard-card text-center"><div class="dashboard-card-title">Monthly Visits</div><div class="dashboard-card-value">@TotalVisits</div><div class="dashboard-card-text">Gym Check-ins</div></div>
+                <div class="dashboard-card text-center"><div class="dashboard-card-title">Workout Streak</div><div class="dashboard-card-value">@WorkoutStreak</div><div class="dashboard-card-text">Consecutive Days</div></div>
+                <div class="dashboard-card text-center"><div class="dashboard-card-title">Membership</div><div class="dashboard-card-value">@(SubscriptionActive ? "ACTIVE" : "EXPIRED")</div><div class="dashboard-card-text">Current Status</div></div>
+                <div class="dashboard-card text-center"><div class="dashboard-card-title">Goal Completion</div><div class="dashboard-card-value">@GoalCompletion%</div><div class="dashboard-card-text">Progress Achieved</div></div>
+            </div>
 
                     <div class="dashboard-card-value">
                         @TotalVisits
@@ -417,18 +167,9 @@
         <div class="mb-5">
 
             <div class="d-flex justify-content-between align-items-center mb-4">
-
-                <div>
-
-                    <h2 class="section-title">
-                        Fitness Analytics
-                    </h2>
-
-                    <p class="section-subtitle">
-                        Smart AI-generated member insights
-                    </p>
-
-                </div>
+                <div><h2 class="section-title">Fitness Analytics</h2><p class="section-subtitle">Smart AI-generated member insights</p></div>
+                <div class="mini-badge">LIVE TRACKING ENABLED</div>
+            </div>
 
                 <div class="mini-badge">
                     LIVE TRACKING ENABLED
@@ -441,65 +182,12 @@
                 <div class="col-lg-7">
 
                     <div class="dashboard-card">
-
-                        <div class="d-flex justify-content-between mb-2">
-
-                            <span class="fw-semibold text-light">
-                                Goal Completion
-                            </span>
-
-                            <span class="fw-bold text-info">
-                                @GoalCompletion%
-                            </span>
-
-                        </div>
-
-                        <div class="progress mb-4">
-
-                            <div class="progress-bar"
-                                 style="width:@(GoalCompletion)%">
-                            </div>
-
-                        </div>
-
+                        <div class="d-flex justify-content-between mb-2"><span class="fw-semibold text-light">Goal Completion</span><span class="fw-bold text-info">@GoalCompletion%</span></div>
+                        <div class="progress mb-4"><div class="progress-bar" style="width:@(GoalCompletion)%"></div></div>
                         <div class="row text-center g-4">
-
-                            <div class="col-md-4">
-
-                                <h3 class="fw-bold text-white">
-                                    @CaloriesBurned
-                                </h3>
-
-                                <p class="mb-0 text-light">
-                                    Calories Burned
-                                </p>
-
-                            </div>
-
-                            <div class="col-md-4">
-
-                                <h3 class="fw-bold text-white">
-                                    @CurrentWeight KG
-                                </h3>
-
-                                <p class="mb-0 text-light">
-                                    Current Weight
-                                </p>
-
-                            </div>
-
-                            <div class="col-md-4">
-
-                                <h3 class="fw-bold text-white">
-                                    @TargetWeight KG
-                                </h3>
-
-                                <p class="mb-0 text-light">
-                                    Target Weight
-                                </p>
-
-                            </div>
-
+                            <div class="col-md-4"><h3 class="fw-bold text-white">@CaloriesBurned</h3><p class="mb-0 text-light">Calories Burned</p></div>
+                            <div class="col-md-4"><h3 class="fw-bold text-white">@CurrentWeight KG</h3><p class="mb-0 text-light">Current Weight</p></div>
+                            <div class="col-md-4"><h3 class="fw-bold text-white">@TargetWeight KG</h3><p class="mb-0 text-light">Target Weight</p></div>
                         </div>
 
                     </div>
@@ -509,22 +197,9 @@
                 <div class="col-lg-5">
 
                     <div class="dashboard-card">
-
-                        <h5 class="fw-bold text-white mb-3">
-                            AI Churn Prediction
-                        </h5>
-
-                        <div class="dashboard-card-value">
-                            @ChurnRisk%
-                        </div>
-
-                        <div class="dashboard-card-text">
-                            AI-based inactivity prediction generated from:
-                            attendance,
-                            workout engagement,
-                            and membership activity.
-                        </div>
-
+                        <h5 class="fw-bold text-white mb-3">AI Churn Prediction</h5>
+                        <div class="dashboard-card-value">@ChurnRisk%</div>
+                        <div class="dashboard-card-text">AI-based inactivity prediction generated from: attendance, workout engagement, and membership activity.</div>
                     </div>
 
                 </div>
@@ -536,73 +211,11 @@
         <!-- BODY VITALS -->
 
         <div class="mb-5">
-
-            <h2 class="section-title mb-4">
-                Body Vitals
-            </h2>
-
+            <h2 class="section-title mb-4">Body Vitals</h2>
             <div class="row g-4">
-
-                <div class="col-md-4">
-
-                    <div class="dashboard-card text-center">
-
-                        <div class="dashboard-card-title">
-                            Current BMI
-                        </div>
-
-                        <div class="dashboard-card-value">
-                            @BMI
-                        </div>
-
-                        <div class="dashboard-card-text">
-                            Body Mass Index Tracking
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="dashboard-card text-center">
-
-                        <div class="dashboard-card-title">
-                            Water Intake
-                        </div>
-
-                        <div class="dashboard-card-value">
-                            @WaterIntake L
-                        </div>
-
-                        <div class="dashboard-card-text">
-                            Daily Hydration Monitoring
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <div class="dashboard-card text-center">
-
-                        <div class="dashboard-card-title">
-                            Sleep Tracking
-                        </div>
-
-                        <div class="dashboard-card-value">
-                            @SleepHours hrs
-                        </div>
-
-                        <div class="dashboard-card-text">
-                            Recovery & Sleep Analytics
-                        </div>
-
-                    </div>
-
-                </div>
-
+                <div class="col-md-4"><div class="dashboard-card text-center"><div class="dashboard-card-title">Current BMI</div><div class="dashboard-card-value">@BMI</div><div class="dashboard-card-text">Body Mass Index Tracking</div></div></div>
+                <div class="col-md-4"><div class="dashboard-card text-center"><div class="dashboard-card-title">Water Intake</div><div class="dashboard-card-value">@WaterIntake L</div><div class="dashboard-card-text">Daily Hydration Monitoring</div></div></div>
+                <div class="col-md-4"><div class="dashboard-card text-center"><div class="dashboard-card-title">Sleep Tracking</div><div class="dashboard-card-value">@SleepHours hrs</div><div class="dashboard-card-text">Recovery & Sleep Analytics</div></div></div>
             </div>
 
         </div>
@@ -610,11 +223,7 @@
         <!-- GYM LIVE CAPACITY -->
 
         <div class="mb-5">
-
-            <h2 class="section-title mb-4">
-                Live Gym Capacity
-            </h2>
-
+            <h2 class="section-title mb-4">Live Gym Capacity</h2>
             <div class="row g-4">
 
                 <div class="col-lg-8">
@@ -622,61 +231,14 @@
                     <div class="dashboard-card">
 
                         <div class="d-flex justify-content-between align-items-center mb-3">
-
-                            <h4 class="text-white fw-bold mb-0">
-                                Current Gym Crowd
-                            </h4>
-
-                            @if (CapacityPercentage < 50)
-                            {
-                                <span class="mini-badge">
-                                    BEST TIME TO GO
-                                </span>
-                            }
-                            else if (CapacityPercentage < 80)
-                            {
-                                <span class="mini-badge"
-                                      style="background:rgba(250,204,21,.15);
-                                             color:#facc15;
-                                             border-color:rgba(250,204,21,.2);">
-                                    MODERATE CROWD
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="mini-badge"
-                                      style="background:rgba(248,113,113,.15);
-                                             color:#f87171;
-                                             border-color:rgba(248,113,113,.2);">
-                                    HIGH CROWD
-                                </span>
-                            }
-
+                            <h4 class="text-white fw-bold mb-0">Current Gym Crowd</h4>
+                            @if (CapacityPercentage < 50) { <span class="mini-badge">BEST TIME TO GO</span> }
+                            else if (CapacityPercentage < 80) { <span class="mini-badge" style="background:rgba(250,204,21,.15);color:#facc15;border-color:rgba(250,204,21,.2);">MODERATE CROWD</span> }
+                            else { <span class="mini-badge" style="background:rgba(248,113,113,.15);color:#f87171;border-color:rgba(248,113,113,.2);">HIGH CROWD</span> }
                         </div>
-
-                        <div class="dashboard-card-value">
-                            @CurrentGymUsers / @GymCapacity
-                        </div>
-
-                        <div class="progress mb-4">
-
-                            <div class="progress-bar"
-                                 style="width:@CapacityPercentage%">
-                            </div>
-
-                        </div>
-
-                        <div class="dashboard-card-text">
-
-                            Gym Occupancy:
-                            <strong>@CapacityPercentage%</strong>
-
-                            <br />
-                            Live attendance tracking helps members decide
-                            the best time to visit the gym.
-
-                        </div>
-
+                        <div class="dashboard-card-value">@CurrentGymUsers / @GymCapacity</div>
+                        <div class="progress mb-4"><div class="progress-bar" style="width:@CapacityPercentage%"></div></div>
+                        <div class="dashboard-card-text">Gym Occupancy: <strong>@CapacityPercentage%</strong><br />Live attendance tracking helps members decide the best time to visit the gym.</div>
                     </div>
 
                 </div>
@@ -684,30 +246,9 @@
                 <div class="col-lg-4">
 
                     <div class="dashboard-card">
-
-                        <h5 class="fw-bold text-white mb-3">
-                            Attendance System
-                        </h5>
-
-                        <p class="dashboard-card-text mb-4">
-
-                            Smart attendance system updates:
-                            <br />
-                            ✔ Gym entry count
-                            <br />
-                            ✔ Active members
-                            <br />
-                            ✔ Peak hours
-                            <br />
-                            ✔ Crowd analytics
-
-                        </p>
-
-                        <a href="/Attendance/CheckIn"
-                           class="feature-btn feature-btn-primary">
-                            Mark Attendance
-                        </a>
-
+                        <h5 class="fw-bold text-white mb-3">Attendance System</h5>
+                        <p class="dashboard-card-text mb-4">Smart attendance system updates:<br />✔ Gym entry count<br />✔ Active members<br />✔ Peak hours<br />✔ Crowd analytics</p>
+                        <a href="/Attendance/CheckIn" class="feature-btn feature-btn-primary">Mark Attendance</a>
                     </div>
 
                 </div>
@@ -721,61 +262,22 @@
         <div class="dashboard-card mb-5">
 
             <div class="d-flex justify-content-between align-items-center mb-3">
-
-                <div>
-
-                    <h3 class="text-white fw-bold mb-1">
-                        AI Fitness Recommendation
-                    </h3>
-
-                    <p class="text-light mb-0">
-                        Personalized Smart Suggestion
-                    </p>
-
-                </div>
-
-                <span class="mini-badge">
-                    AI GENERATED
-                </span>
-
+                <div><h3 class="text-white fw-bold mb-1">AI Fitness Recommendation</h3><p class="text-light mb-0">Personalized Smart Suggestion</p></div>
+                <span class="mini-badge">AI GENERATED</span>
             </div>
 
             @if (WorkoutStreak < 3)
-            {
-                <p class="dashboard-card-text mb-0">
-
-                    Your workout consistency is currently low.
-                    Increase attendance and maintain regular workouts
-                    to improve body performance and reduce churn risk.
-
-                </p>
-            }
+            { <p class="dashboard-card-text mb-0">Your workout consistency is currently low. Increase attendance and maintain regular workouts to improve body performance and reduce churn risk.</p> }
             else
-            {
-                <p class="dashboard-card-text mb-0">
-
-                    Excellent consistency detected.
-                    Your engagement and fitness progress
-                    are improving steadily.
-
-                </p>
-            }
-
+            { <p class="dashboard-card-text mb-0">Excellent consistency detected. Your engagement and fitness progress are improving steadily.</p> }
         </div>
     }
 
     <!-- FEATURES -->
 
     <div class="mb-4">
-
-        <h2 class="section-title">
-            Smart Fitness Modules
-        </h2>
-
-        <p class="section-subtitle">
-            AI-powered modules integrated into NexFit ecosystem
-        </p>
-
+        <h2 class="section-title">Smart Fitness Modules</h2>
+        <p class="section-subtitle">AI-powered modules integrated into NexFit ecosystem</p>
     </div>
 
     <div class="row g-4">
@@ -785,99 +287,34 @@
         <div class="col-lg-4">
 
             <div class="feature-card">
-
-                <div class="feature-icon"
-                     style="background:rgba(59,130,246,.15); color:#38bdf8;">
-
-                    <i class="bi bi-person-circle"></i>
-
-                </div>
-
-                <h4 class="feature-title">
-                    Athlete Profile
-                </h4>
-
-                <p class="feature-description">
-
-                    Manage body vitals,
-                    fitness goals,
-                    injuries,
-                    activity level,
-                    and personal profile settings.
-
-                </p>
-
-                <a href="/Profile"
-                   class="feature-btn feature-btn-primary">
-                    Open Profile
-                </a>
-
+                <div class="feature-icon" style="background:rgba(59,130,246,.15); color:#38bdf8;"><i class="bi bi-person-circle"></i></div>
+                <h4 class="feature-title">Athlete Profile</h4>
+                <p class="feature-description">Manage body vitals, fitness goals, injuries, activity level, and personal profile settings.</p>
+                <a href="/Profile" class="feature-btn feature-btn-primary">Open Profile</a>
             </div>
 
         </div>
 
-        <!-- POSTURE -->
-
+        <!-- ✅ POSTURE - Fixed Link -->
         <div class="col-lg-4">
 
             <div class="feature-card">
-
-                <div class="feature-icon"
-                     style="background:rgba(59,130,246,.15); color:#38bdf8;">
-
-                    <i class="bi bi-camera-video-fill"></i>
-
-                </div>
-
-                <h4 class="feature-title">
-                    AI Posture Detection
-                </h4>
-
-                <p class="feature-description">
-
-                    Analyze workout posture using
-                    AI-powered body movement tracking.
-
-                </p>
-
-                <a href="/Posture/Upload"
-                   class="feature-btn feature-btn-primary">
-                    Open Analyzer
-                </a>
-
+                <div class="feature-icon" style="background:rgba(59,130,246,.15); color:#38bdf8;"><i class="bi bi-camera-video-fill"></i></div>
+                <h4 class="feature-title">AI Posture Detection</h4>
+                <p class="feature-description">Analyze workout posture using AI-powered body movement tracking.</p>
+                <a asp-controller="AI" asp-action="VideoUpload" class="feature-btn feature-btn-primary">Open Analyzer</a>
             </div>
 
         </div>
 
-        <!-- DIET -->
-
+        <!-- ✅ DIET - Fixed Link -->
         <div class="col-lg-4">
 
             <div class="feature-card">
-
-                <div class="feature-icon"
-                     style="background:rgba(34,197,94,.15); color:#4ade80;">
-
-                    <i class="bi bi-camera-fill"></i>
-
-                </div>
-
-                <h4 class="feature-title">
-                    Smart Diet Scanner
-                </h4>
-
-                <p class="feature-description">
-
-                    Upload food images and receive
-                    calorie and nutrition analysis instantly.
-
-                </p>
-
-                <a href="/Diet/Analyze"
-                   class="feature-btn feature-btn-primary">
-                    Analyze Nutrition
-                </a>
-
+                <div class="feature-icon" style="background:rgba(34,197,94,.15); color:#4ade80;"><i class="bi bi-camera-fill"></i></div>
+                <h4 class="feature-title">Smart Diet Scanner</h4>
+                <p class="feature-description">Upload food images and receive calorie and nutrition analysis instantly.</p>
+                <a asp-controller="AI" asp-action="DietSnap" class="feature-btn feature-btn-primary">Analyze Nutrition</a>
             </div>
 
         </div>
@@ -887,30 +324,10 @@
         <div class="col-lg-4">
 
             <div class="feature-card">
-
-                <div class="feature-icon"
-                     style="background:rgba(168,85,247,.15); color:#c084fc;">
-
-                    <i class="bi bi-chat-dots-fill"></i>
-
-                </div>
-
-                <h4 class="feature-title">
-                    Trainer Live Chat
-                </h4>
-
-                <p class="feature-description">
-
-                    Real-time SignalR communication
-                    between trainers and members.
-
-                </p>
-
-                <a href="/Chat/Trainer"
-                   class="feature-btn feature-btn-primary">
-                    Open Chat
-                </a>
-
+                <div class="feature-icon" style="background:rgba(168,85,247,.15); color:#c084fc;"><i class="bi bi-chat-dots-fill"></i></div>
+                <h4 class="feature-title">Trainer Live Chat</h4>
+                <p class="feature-description">Real-time SignalR communication between trainers and members.</p>
+                <a href="/Chat/Trainer" class="feature-btn feature-btn-primary">Open Chat</a>
             </div>
 
         </div>
@@ -920,67 +337,22 @@
         <div class="col-lg-4">
 
             <div class="feature-card">
-
-                <div class="feature-icon"
-                     style="background:rgba(249,115,22,.15); color:#fb923c;">
-
-                    <i class="bi bi-clipboard-check-fill"></i>
-
-                </div>
-
-                <h4 class="feature-title">
-                    Attendance Tracker
-                </h4>
-
-                <p class="feature-description">
-
-                    Track gym check-ins,
-                    monitor attendance history,
-                    and analyze workout consistency.
-
-                </p>
-
-                <a href="/Attendance"
-                   class="feature-btn feature-btn-primary">
-                    View Attendance
-                </a>
-
+                <div class="feature-icon" style="background:rgba(249,115,22,.15); color:#fb923c;"><i class="bi bi-clipboard-check-fill"></i></div>
+                <h4 class="feature-title">Attendance Tracker</h4>
+                <p class="feature-description">Track gym check-ins, monitor attendance history, and analyze workout consistency.</p>
+                <a href="/Attendance" class="feature-btn feature-btn-primary">View Attendance</a>
             </div>
 
         </div>
 
-        <!-- WORKOUT -->
-
+        <!-- ✅ WORKOUT - Fixed Link -->
         <div class="col-lg-4">
 
             <div class="feature-card">
-
-                <div class="feature-icon"
-                     style="background:rgba(236,72,153,.15); color:#f472b6;">
-
-                    <i class="bi bi-lightning-charge-fill"></i>
-
-                </div>
-
-                <h4 class="feature-title">
-                    AI Workout Generator
-                </h4>
-
-                <p class="feature-description">
-
-                    Generate intelligent workouts
-                    based on goals,
-                    injuries,
-                    BMI,
-                    and fitness level.
-
-                </p>
-
-                <a href="/Workout/Generate"
-                   class="feature-btn feature-btn-primary">
-                    Generate Workout
-                </a>
-
+                <div class="feature-icon" style="background:rgba(236,72,153,.15); color:#f472b6;"><i class="bi bi-lightning-charge-fill"></i></div>
+                <h4 class="feature-title">AI Workout Generator</h4>
+                <p class="feature-description">Generate intelligent workouts based on goals, injuries, BMI, and fitness level.</p>
+                <a asp-controller="AI" asp-action="WorkoutArchitect" class="feature-btn feature-btn-primary">Generate Workout</a>
             </div>
 
         </div>
