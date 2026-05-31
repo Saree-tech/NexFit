@@ -9,6 +9,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
+// File size limit 50MB
+builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 50 * 1024 * 1024;
+});
+
+// HttpClient with longer timeout for video upload
+builder.Services.AddHttpClient<DietSnapService>(client =>
+{
+    client.Timeout = TimeSpan.FromMinutes(5);
+});
+
+builder.Services.AddHttpClient<PostureService>(client =>
+{
+    client.Timeout = TimeSpan.FromMinutes(5);
+});
+
 // Mongo Services
 builder.Services.AddSingleton<MongoDbRepository>();
 builder.Services.AddScoped<DashboardService>();
@@ -28,13 +45,10 @@ builder.Services
     .AddCookie(options =>
     {
         options.Cookie.Name = "NexFit.Auth.Cookie";
-
         options.LoginPath = "/Auth/Login";
         options.AccessDeniedPath = "/Auth/Login";
-
         options.ExpireTimeSpan = TimeSpan.FromDays(7);
         options.SlidingExpiration = true;
-
         options.Cookie.HttpOnly = true;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         options.Cookie.SameSite = SameSiteMode.Lax;
@@ -60,9 +74,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 

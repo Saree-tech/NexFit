@@ -5,7 +5,7 @@
 <div class="ai-container">
     <div class="ai-card">
         <h2 class="ai-title">🏋️ Video Posture Upload</h2>
-        <p class="ai-subtitle">Upload a workout video — AI will analyze your exercise form.</p>
+        <p class="ai-subtitle">Upload a workout video — AI will capture a frame and analyze your exercise form.</p>
 
         <div class="upload-zone">
             <input type="file" id="videoInput" accept=".mp4,.webm,.mov" onchange="handleVideo(this)" />
@@ -17,74 +17,132 @@
         </div>
 
         <div id="videoPreview" style="display:none; margin-top:1rem; text-align:center;">
-            <video id="previewVideo" controls style="max-width:100%; border-radius:12px;"></video>
+            <video id="previewVideo" controls style="max-width:100%; border-radius:12px;" crossorigin="anonymous"></video>
+            <canvas id="frameCanvas" style="display:none;"></canvas>
             <br />
-            <button onclick="analyzePosture()" class="ai-btn mt-2">Analyze Posture with AI</button>
+            <button onclick="analyzePosture()" class="ai-btn" style="margin-top:0.75rem;">
+                Analyze Posture with AI
+            </button>
         </div>
 
         <div id="loadingBox" style="display:none;" class="loading-box">
             <div class="spinner"></div>
-            <span>AI is analyzing your form...</span>
+            <span>Capturing frame and analyzing your form...</span>
         </div>
 
         <div id="feedbackCard" style="display:none;" class="feedback-card">
             <h5>AI Posture Feedback</h5>
-            <pre id="feedbackText" style="white-space:pre-wrap; font-family:inherit;"></pre>
+            <pre id="feedbackText"></pre>
+        </div>
+
+        <div id="errorBox" style="display:none;" class="error-box">
+            <span id="errorText"></span>
         </div>
     </div>
 </div>
 
 <style>
-.ai-container { max-width: 680px; margin: 2rem auto; padding: 0 1rem; }
-.ai-card { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
-.ai-title { color: #6C47FF; font-size: 1.5rem; font-weight: 700; }
-.ai-subtitle { color: #6B7280; margin-bottom: 1.5rem; }
-.upload-zone { border: 2px dashed #6C47FF; border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; position: relative; }
-.upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-.upload-zone label { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: #6B7280; pointer-events: none; }
-.upload-icon { font-size: 2.5rem; }
-.upload-hint { font-size: 0.8rem; color: #aaa; }
-.ai-btn { background: #6C47FF; color: white; border: none; border-radius: 10px; padding: 0.65rem 1.5rem; font-size: 0.95rem; cursor: pointer; margin-top: 0.75rem; }
-.ai-btn:hover { opacity: 0.9; }
-.loading-box { display: flex; align-items: center; gap: 0.75rem; background: #F3F0FF; border-radius: 10px; padding: 1rem; margin-top: 1rem; color: #6C47FF; }
-.spinner { width: 20px; height: 20px; border: 2px solid rgba(108,71,255,0.2); border-top-color: #6C47FF; border-radius: 50%; animation: spin 0.8s linear infinite; }
-@@keyframes spin { to { transform: rotate(360deg); } }
-.feedback-card { background: #F0FDF8; border: 1px solid #A7F3D0; border-radius: 12px; padding: 1.25rem; margin-top: 1rem; }
-.feedback-card h5 { color: #065F46; font-weight: 600; margin-bottom: 0.75rem; }
-.mt-2 { margin-top: 0.5rem; }
+    .ai-container { max-width: 680px; margin: 2rem auto; padding: 0 1rem; }
+    .ai-card { background: rgba(15,23,42,.95); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 2rem; box-shadow: 0 2px 20px rgba(0,0,0,.3); }
+    .ai-title { color: #38bdf8; font-size: 1.5rem; font-weight: 700; }
+    .ai-subtitle { color: #94a3b8; margin-bottom: 1.5rem; }
+    .upload-zone { border: 2px dashed #38bdf8; border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; position: relative; transition: background 0.2s; }
+    .upload-zone:hover { background: rgba(56,189,248,.05); }
+    .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .upload-zone label { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: #64748b; pointer-events: none; }
+    .upload-icon { font-size: 2.5rem; }
+    .upload-hint { font-size: 0.8rem; color: #475569; }
+    .ai-btn { background: linear-gradient(135deg,#2563eb,#38bdf8); color: white; border: none; border-radius: 10px; padding: 0.65rem 1.5rem; font-size: 0.95rem; cursor: pointer; font-weight: 600; }
+    .ai-btn:hover { opacity: 0.9; }
+    .loading-box { display: flex; align-items: center; gap: 0.75rem; background: rgba(56,189,248,.08); border-radius: 10px; padding: 1rem; margin-top: 1rem; color: #38bdf8; }
+    .spinner { width: 20px; height: 20px; border: 2px solid rgba(56,189,248,.2); border-top-color: #38bdf8; border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+    @@keyframes spin { to { transform: rotate(360deg); } }
+    .feedback-card { background: #ffffff; border: 1px solid #d1fae5; border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem; }
+    .feedback-card h5 { color: #065f46; font-weight: 700; margin-bottom: 1rem; font-size: 1.1rem; }
+    #feedbackText { white-space: pre-wrap; font-family: 'Plus Jakarta Sans', sans-serif; color: #111827; line-height: 1.8; font-size: 0.95rem; margin: 0; background: transparent; border: none; }
+    .error-box { background: rgba(127,29,29,.3); border: 1px solid rgba(252,165,165,.2); color: #fca5a5; border-radius: 10px; padding: 0.75rem 1rem; margin-top: 1rem; }
 </style>
 
 <script>
-var selectedFile = null;
+    var selectedFile = null;
 
-function handleVideo(input) {
-    const file = input.files[0];
-    if (!file) return;
-    if (file.size > 20 * 1024 * 1024) {
-        alert('File too large! Please upload under 20MB.');
-        return;
+    function handleVideo(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        if (file.size > 20 * 1024 * 1024) {
+            showError('File too large! Please upload under 20MB.');
+            return;
+        }
+
+        selectedFile = file;
+        document.getElementById('errorBox').style.display = 'none';
+        document.getElementById('videoText').textContent = file.name;
+        const url = URL.createObjectURL(file);
+        const video = document.getElementById('previewVideo');
+        video.src = url;
+        document.getElementById('videoPreview').style.display = 'block';
+        document.getElementById('feedbackCard').style.display = 'none';
     }
-    selectedFile = file;
-    document.getElementById('videoText').textContent = file.name;
-    const url = URL.createObjectURL(file);
-    document.getElementById('previewVideo').src = url;
-    document.getElementById('videoPreview').style.display = 'block';
-}
 
-function analyzePosture() {
-    if (!selectedFile) return;
-    document.getElementById('loadingBox').style.display = 'flex';
-    document.getElementById('feedbackCard').style.display = 'none';
+    function captureFrame() {
+        return new Promise((resolve, reject) => {
+            const video = document.getElementById('previewVideo');
+            const canvas = document.getElementById('frameCanvas');
 
-    const formData = new FormData();
-    formData.append('video', selectedFile);
+            const doCapture = () => {
+                canvas.width = video.videoWidth || 640;
+                canvas.height = video.videoHeight || 480;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                canvas.toBlob((blob) => {
+                    if (blob) resolve(blob);
+                    else reject(new Error('Frame capture failed'));
+                }, 'image/jpeg', 0.9);
+            };
 
-    fetch('/AI/AnalyzePosture', { method: 'POST', body: formData })
-        .then(r => r.json())
-        .then(data => {
+            if (video.readyState >= 2) {
+                video.currentTime = Math.min(1, video.duration * 0.3);
+                video.onseeked = doCapture;
+            } else {
+                video.onloadeddata = () => {
+                    video.currentTime = Math.min(1, video.duration * 0.3);
+                    video.onseeked = doCapture;
+                };
+            }
+        });
+    }
+
+    async function analyzePosture() {
+        if (!selectedFile) return;
+
+        document.getElementById('loadingBox').style.display = 'flex';
+        document.getElementById('feedbackCard').style.display = 'none';
+        document.getElementById('errorBox').style.display = 'none';
+
+        try {
+            const frameBlob = await captureFrame();
+            const formData = new FormData();
+            formData.append('video', frameBlob, 'frame.jpg');
+
+            const response = await fetch('/AI/AnalyzePosture', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
             document.getElementById('loadingBox').style.display = 'none';
             document.getElementById('feedbackText').textContent = data.feedback;
             document.getElementById('feedbackCard').style.display = 'block';
-        });
-}
+
+        } catch (err) {
+            document.getElementById('loadingBox').style.display = 'none';
+            showError('Error analyzing video. Please try again.');
+        }
+    }
+
+    function showError(msg) {
+        document.getElementById('errorText').textContent = msg;
+        document.getElementById('errorBox').style.display = 'block';
+    }
 </script>

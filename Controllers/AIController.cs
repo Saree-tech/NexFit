@@ -28,11 +28,10 @@ namespace NexFit.Controllers
 
             using var ms = new MemoryStream();
             await image.CopyToAsync(ms);
-            var bytes = ms.ToArray();
 
             try
             {
-                var result = await _dietService.AnalyzeFoodPhoto(bytes);
+                var result = await _dietService.AnalyzeFoodPhoto(ms.ToArray());
                 return Json(new
                 {
                     foodName = result.FoodName,
@@ -52,11 +51,21 @@ namespace NexFit.Controllers
         [HttpPost]
         public async Task<IActionResult> AnalyzePosture(IFormFile video)
         {
-            if (video == null) return Json(new { feedback = "No video uploaded" });
+            if (video == null)
+                return Json(new { feedback = "No image uploaded" });
+
             using var ms = new MemoryStream();
             await video.CopyToAsync(ms);
-            var feedback = await _postureService.AnalyzePostureFrame(ms.ToArray());
-            return Json(new { feedback });
+
+            try
+            {
+                var feedback = await _postureService.AnalyzePostureFrame(ms.ToArray());
+                return Json(new { feedback });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { feedback = "Error: " + ex.Message });
+            }
         }
 
         [HttpPost]
