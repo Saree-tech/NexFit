@@ -34,7 +34,10 @@
         <div id="planCard" style="display:none;" class="plan-card mt-3">
             <div class="plan-header">
                 <span>Your 7-Day Plan</span>
-                <button onclick="copyPlan()" class="copy-btn">📋 Copy</button>
+                <div style="display:flex; gap:0.5rem;">
+                    <button onclick="saveToHistory()" class="save-btn">💾 Save Plan</button>
+                    <button onclick="copyPlan()" class="copy-btn">📋 Copy</button>
+                </div>
             </div>
             <pre id="planText"></pre>
         </div>
@@ -45,7 +48,44 @@
     </div>
 </div>
 
+<!-- ===================== WORKOUT HISTORY ===================== -->
+<div class="history-container">
+    <div class="history-card">
+
+        <div class="history-header">
+            <div>
+                <h2 class="history-title">📊 Workout History</h2>
+                <p class="history-subtitle">Your saved workout plans — track your fitness journey!</p>
+            </div>
+            <button class="clear-history-btn" onclick="clearHistory()">🗑 Clear All</button>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+            <div class="stat-item">
+                <span class="stat-value" id="totalPlans">0</span>
+                <span class="stat-label">Plans Generated</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="completedCount">0</span>
+                <span class="stat-label">Completed</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="streakCount">0</span>
+                <span class="stat-label">Day Streak 🔥</span>
+            </div>
+        </div>
+
+        <!-- History List -->
+        <div id="historyList">
+            <div class="empty-history">No workout plans saved yet. Generate a plan above and click Save!</div>
+        </div>
+
+    </div>
+</div>
+
 <style>
+    /* ---- WORKOUT ARCHITECT ---- */
     .ai-container { max-width: 680px; margin: 2rem auto; padding: 0 1rem; }
     .ai-card { background: rgba(15,23,42,.95); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 2rem; box-shadow: 0 2px 20px rgba(0,0,0,.3); }
     .ai-title { color: #38bdf8; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
@@ -65,11 +105,75 @@
     .plan-header { background: linear-gradient(135deg,#2563eb,#38bdf8); color: white; padding: 0.85rem 1rem; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
     .copy-btn { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); color: white; border-radius: 6px; padding: 0.3rem 0.75rem; cursor: pointer; font-size: 0.85rem; }
     .copy-btn:hover { background: rgba(255,255,255,.25); }
+    .save-btn { background: rgba(74,222,128,.2); border: 1px solid rgba(74,222,128,.4); color: #4ade80; border-radius: 6px; padding: 0.3rem 0.75rem; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+    .save-btn:hover { background: rgba(74,222,128,.3); }
     #planText { white-space: pre-wrap; font-family: 'Plus Jakarta Sans', sans-serif; color: #e2e8f0; line-height: 1.8; font-size: 0.9rem; margin: 0; padding: 1.25rem; background: rgba(15,23,42,.8); }
     .error-box { background: rgba(127,29,29,.3); border: 1px solid rgba(252,165,165,.2); color: #fca5a5; border-radius: 10px; padding: 0.75rem 1rem; }
+
+    /* ---- WORKOUT HISTORY ---- */
+    .history-container { max-width: 680px; margin: 0 auto 3rem; padding: 0 1rem; }
+    .history-card { background: linear-gradient(145deg, #0d1b2e, #0f2540); border: 1px solid rgba(255,255,255,.08); border-radius: 20px; padding: 2rem; box-shadow: 0 4px 30px rgba(0,0,0,.4); }
+    .history-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+    .history-title { color: #38bdf8; font-size: 1.4rem; font-weight: 700; margin: 0; }
+    .history-subtitle { color: #94a3b8; font-size: 0.9rem; margin: 0.2rem 0 0; }
+    .clear-history-btn { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3); color: #f87171; border-radius: 8px; padding: 0.4rem 0.9rem; font-size: 0.85rem; cursor: pointer; white-space: nowrap; }
+    .clear-history-btn:hover { background: rgba(239,68,68,.2); }
+
+    /* Stats */
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+    .stat-item { text-align: center; background: rgba(56,189,248,.08); border: 1px solid rgba(56,189,248,.15); border-radius: 12px; padding: 1rem 0.5rem; }
+    .stat-value { display: block; color: #38bdf8; font-size: 1.8rem; font-weight: 800; }
+    .stat-label { color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* History Items */
+    .empty-history { color: #475569; text-align: center; padding: 2rem; font-size: 0.9rem; }
+    .history-item { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.06); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; transition: all .2s; }
+    .history-item:hover { border-color: rgba(56,189,248,.2); }
+    .history-item-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+    .history-item-goal { color: white; font-weight: 700; font-size: 0.95rem; }
+    .history-item-date { color: #64748b; font-size: 0.8rem; }
+    .history-item-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .tag { padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+    .tag-level { background: rgba(56,189,248,.15); color: #38bdf8; }
+    .tag-injury { background: rgba(251,191,36,.15); color: #fbbf24; }
+    .tag-completed { background: rgba(74,222,128,.15); color: #4ade80; }
+    .tag-pending { background: rgba(148,163,184,.1); color: #94a3b8; }
+    .history-item-actions { display: flex; gap: 0.5rem; }
+    .btn-view { background: rgba(56,189,248,.1); border: 1px solid rgba(56,189,248,.2); color: #38bdf8; border-radius: 8px; padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer; }
+    .btn-view:hover { background: rgba(56,189,248,.2); }
+    .btn-complete { background: rgba(74,222,128,.1); border: 1px solid rgba(74,222,128,.2); color: #4ade80; border-radius: 8px; padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer; }
+    .btn-complete:hover { background: rgba(74,222,128,.2); }
+    .btn-delete { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.2); color: #f87171; border-radius: 8px; padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer; }
+    .btn-delete:hover { background: rgba(239,68,68,.2); }
+
+    /* Plan Preview Modal */
+    .plan-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 9999; align-items: center; justify-content: center; padding: 1rem; }
+    .plan-modal.active { display: flex; }
+    .plan-modal-inner { background: #0f1f37; border: 1px solid rgba(255,255,255,.1); border-radius: 16px; padding: 1.5rem; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; }
+    .plan-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .plan-modal-title { color: #38bdf8; font-weight: 700; font-size: 1.1rem; }
+    .plan-modal-close { background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; }
+    .plan-modal-text { white-space: pre-wrap; color: #e2e8f0; font-size: 0.85rem; line-height: 1.8; font-family: 'Plus Jakarta Sans', sans-serif; }
 </style>
 
+<!-- Plan View Modal -->
+<div class="plan-modal" id="planModal">
+    <div class="plan-modal-inner">
+        <div class="plan-modal-header">
+            <span class="plan-modal-title" id="modalTitle">Workout Plan</span>
+            <button class="plan-modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <pre class="plan-modal-text" id="modalPlanText"></pre>
+    </div>
+</div>
+
 <script>
+    /* ==================== WORKOUT ARCHITECT ==================== */
+    let currentPlan = null;
+    let currentGoal = '';
+    let currentLevel = '';
+    let currentInjury = '';
+
     function generatePlan() {
         const injury = document.getElementById('injury').value;
         const goal = document.getElementById('goal').value;
@@ -80,6 +184,10 @@
             document.getElementById('errorBox').style.display = 'block';
             return;
         }
+
+        currentGoal = goal;
+        currentLevel = level;
+        currentInjury = injury;
 
         document.getElementById('errorBox').style.display = 'none';
         document.getElementById('loadingBox').style.display = 'flex';
@@ -95,6 +203,7 @@
             document.getElementById('loadingBox').style.display = 'none';
             document.getElementById('planText').textContent = data.plan;
             document.getElementById('planCard').style.display = 'block';
+            currentPlan = data.plan;
         })
         .catch(err => {
             document.getElementById('loadingBox').style.display = 'none';
@@ -108,4 +217,107 @@
         navigator.clipboard.writeText(text);
         alert('Copied to clipboard!');
     }
+
+    /* ==================== WORKOUT HISTORY ==================== */
+    let workoutHistory = JSON.parse(localStorage.getItem('workoutHistory') || '[]');
+
+    function saveToHistory() {
+        if (!currentPlan) return;
+
+        const entry = {
+            id: Date.now(),
+            goal: currentGoal,
+            level: currentLevel,
+            injury: currentInjury || 'None',
+            plan: currentPlan,
+            date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+            completed: false
+        };
+
+        workoutHistory.unshift(entry);
+        localStorage.setItem('workoutHistory', JSON.stringify(workoutHistory));
+        renderHistory();
+
+        const btn = document.querySelector('.save-btn');
+        btn.textContent = '✅ Saved!';
+        btn.style.color = '#4ade80';
+        setTimeout(() => { btn.textContent = '💾 Save Plan'; }, 2000);
+    }
+
+    function markComplete(id) {
+        workoutHistory = workoutHistory.map(e =>
+            e.id === id ? { ...e, completed: true } : e
+        );
+        localStorage.setItem('workoutHistory', JSON.stringify(workoutHistory));
+        renderHistory();
+    }
+
+    function deleteFromHistory(id) {
+        workoutHistory = workoutHistory.filter(e => e.id !== id);
+        localStorage.setItem('workoutHistory', JSON.stringify(workoutHistory));
+        renderHistory();
+    }
+
+    function clearHistory() {
+        if (workoutHistory.length === 0) return;
+        if (confirm('Clear all workout history?')) {
+            workoutHistory = [];
+            localStorage.setItem('workoutHistory', JSON.stringify(workoutHistory));
+            renderHistory();
+        }
+    }
+
+    function viewPlan(id) {
+        const entry = workoutHistory.find(e => e.id === id);
+        if (!entry) return;
+        document.getElementById('modalTitle').textContent = entry.goal + ' — ' + entry.date;
+        document.getElementById('modalPlanText').textContent = entry.plan;
+        document.getElementById('planModal').classList.add('active');
+    }
+
+    function closeModal() {
+        document.getElementById('planModal').classList.remove('active');
+    }
+
+    function renderHistory() {
+        const list = document.getElementById('historyList');
+        const completed = workoutHistory.filter(e => e.completed).length;
+        const streak = Math.min(workoutHistory.length, 7);
+
+        document.getElementById('totalPlans').textContent = workoutHistory.length;
+        document.getElementById('completedCount').textContent = completed;
+        document.getElementById('streakCount').textContent = streak;
+
+        if (workoutHistory.length === 0) {
+            list.innerHTML = '<div class="empty-history">No workout plans saved yet. Generate a plan above and click Save!</div>';
+            return;
+        }
+
+        list.innerHTML = workoutHistory.map(e => `
+            <div class="history-item">
+                <div class="history-item-top">
+                    <div class="history-item-goal">${e.goal}</div>
+                    <div class="history-item-date">${e.date}</div>
+                </div>
+                <div class="history-item-tags">
+                    <span class="tag tag-level">${e.level}</span>
+                    ${e.injury !== 'None' ? `<span class="tag tag-injury">⚠️ ${e.injury}</span>` : ''}
+                    <span class="tag ${e.completed ? 'tag-completed' : 'tag-pending'}">${e.completed ? '✅ Completed' : '⏳ In Progress'}</span>
+                </div>
+                <div class="history-item-actions">
+                    <button class="btn-view" onclick="viewPlan(${e.id})">👁 View Plan</button>
+                    ${!e.completed ? `<button class="btn-complete" onclick="markComplete(${e.id})">✅ Mark Complete</button>` : ''}
+                    <button class="btn-delete" onclick="deleteFromHistory(${e.id})">🗑 Delete</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Load history on page load
+    renderHistory();
+
+    // Close modal on background click
+    document.getElementById('planModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
 </script>

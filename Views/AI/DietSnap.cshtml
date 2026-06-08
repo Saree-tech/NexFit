@@ -2,6 +2,7 @@
     ViewData["Title"] = "Smart Diet Snap";
 }
 
+<!-- ===================== DIET SNAP SECTION ===================== -->
 <div class="ai-container">
     <div class="ai-card">
         <h2 class="ai-title">🍎 Smart Diet Snap</h2>
@@ -46,11 +47,170 @@
                 </div>
             </div>
             <p id="servingSize" class="serving-info"></p>
+            <!-- Add to Calorie Counter Button -->
+            <button class="add-to-log-btn" id="addToLogBtn" onclick="addToLog()" style="display:none;">
+                ➕ Add to Daily Log
+            </button>
         </div>
     </div>
 </div>
 
+<!-- ===================== BMI CALCULATOR SECTION ===================== -->
+<div class="bmi-container">
+    <div class="bmi-card">
+        <div class="bmi-header">
+            <span class="bmi-icon">⚖️</span>
+            <div>
+                <h2 class="bmi-title">BMI Calculator</h2>
+                <p class="bmi-subtitle">Enter your height and weight to calculate your Body Mass Index.</p>
+            </div>
+        </div>
+        <div class="bmi-input-row">
+            <div class="bmi-field">
+                <label class="bmi-label">Height</label>
+                <div class="bmi-input-wrap">
+                    <input type="number" id="bmiHeight" class="bmi-input" placeholder="e.g. 170" min="50" max="250" />
+                    <span class="bmi-unit">cm</span>
+                </div>
+                <small class="bmi-hint">50 – 250 cm</small>
+            </div>
+            <div class="bmi-field">
+                <label class="bmi-label">Weight</label>
+                <div class="bmi-input-wrap">
+                    <input type="number" id="bmiWeight" class="bmi-input" placeholder="e.g. 70" min="10" max="300" />
+                    <span class="bmi-unit">kg</span>
+                </div>
+                <small class="bmi-hint">10 – 300 kg</small>
+            </div>
+            <div class="bmi-field">
+                <label class="bmi-label">Age</label>
+                <div class="bmi-input-wrap">
+                    <input type="number" id="bmiAge" class="bmi-input" placeholder="e.g. 25" min="1" max="120" />
+                    <span class="bmi-unit">yrs</span>
+                </div>
+                <small class="bmi-hint">1 – 120 yrs</small>
+            </div>
+        </div>
+        <div class="bmi-gender-row">
+            <button class="bmi-gender-btn" id="btnMale" onclick="selectGender('Male')">♂ Male</button>
+            <button class="bmi-gender-btn bmi-gender-active" id="btnFemale" onclick="selectGender('Female')">♀ Female</button>
+        </div>
+        <div id="bmiError" class="bmi-error" style="display:none;"></div>
+        <button class="bmi-calc-btn" onclick="calculateBMI()">Calculate BMI</button>
+        <div id="bmiResult" class="bmi-result" style="display:none;">
+            <div class="bmi-result-top">
+                <div class="bmi-result-value-wrap">
+                    <span class="bmi-result-label">Your BMI</span>
+                    <span class="bmi-result-value" id="bmiValue">--</span>
+                    <span class="bmi-result-category" id="bmiCategory">--</span>
+                </div>
+                <div class="bmi-result-info">
+                    <div class="bmi-info-row">
+                        <span class="bmi-info-label">Ideal Weight Range</span>
+                        <span class="bmi-info-val" id="idealWeight">--</span>
+                    </div>
+                    <div class="bmi-info-row">
+                        <span class="bmi-info-label">Daily Calories (BMR)</span>
+                        <span class="bmi-info-val" id="dailyCalories">--</span>
+                    </div>
+                    <div class="bmi-info-row">
+                        <span class="bmi-info-label">Gender</span>
+                        <span class="bmi-info-val" id="genderDisplay">--</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bmi-bar-wrap">
+                <div class="bmi-bar">
+                    <div class="bmi-bar-segment bmi-seg-under">Underweight<br/>&lt;18.5</div>
+                    <div class="bmi-bar-segment bmi-seg-normal">Normal<br/>18.5–24.9</div>
+                    <div class="bmi-bar-segment bmi-seg-over">Overweight<br/>25–29.9</div>
+                    <div class="bmi-bar-segment bmi-seg-obese">Obese<br/>&ge;30</div>
+                </div>
+                <div class="bmi-marker-wrap">
+                    <div class="bmi-marker" id="bmiMarker">▲</div>
+                </div>
+            </div>
+            <p class="bmi-advice" id="bmiAdvice"></p>
+        </div>
+    </div>
+</div>
+
+<!-- ===================== CALORIE COUNTER SECTION ===================== -->
+<div class="calorie-container">
+    <div class="calorie-card">
+
+        <div class="calorie-header">
+            <span class="calorie-icon">🔥</span>
+            <div>
+                <h2 class="calorie-title">Daily Calorie Counter</h2>
+                <p class="calorie-subtitle">Track everything you eat today. Add meals manually or from Diet Snap above.</p>
+            </div>
+        </div>
+
+        <!-- Daily Goal -->
+        <div class="goal-row">
+            <label class="bmi-label">Daily Calorie Goal</label>
+            <div class="goal-input-wrap">
+                <input type="number" id="calorieGoal" class="bmi-input" value="2000" min="500" max="5000" />
+                <span class="bmi-unit">kcal</span>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-section">
+            <div class="progress-labels">
+                <span id="consumedLabel" style="color:#38bdf8; font-weight:700;">0 kcal consumed</span>
+                <span id="remainingLabel" style="color:#94a3b8;">2000 kcal remaining</span>
+            </div>
+            <div class="calorie-progress-bar">
+                <div class="calorie-progress-fill" id="progressFill" style="width:0%"></div>
+            </div>
+            <div class="macro-summary-row">
+                <div class="macro-summary-item">
+                    <span class="macro-summary-value" id="totalProtein">0g</span>
+                    <span class="macro-summary-label">Protein</span>
+                </div>
+                <div class="macro-summary-item">
+                    <span class="macro-summary-value" id="totalCarbs">0g</span>
+                    <span class="macro-summary-label">Carbs</span>
+                </div>
+                <div class="macro-summary-item">
+                    <span class="macro-summary-value" id="totalFat">0g</span>
+                    <span class="macro-summary-label">Fat</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manual Add -->
+        <div class="manual-add-section">
+            <h5 class="section-label">➕ Add Meal Manually</h5>
+            <div class="manual-add-row">
+                <input type="text" id="manualFoodName" class="manual-input" placeholder="Food name (e.g. Rice, Egg)" />
+                <input type="number" id="manualCalories" class="manual-input small" placeholder="Calories" min="0" />
+                <input type="number" id="manualProtein" class="manual-input small" placeholder="Protein g" min="0" />
+                <input type="number" id="manualCarbs" class="manual-input small" placeholder="Carbs g" min="0" />
+                <input type="number" id="manualFat" class="manual-input small" placeholder="Fat g" min="0" />
+                <button class="add-manual-btn" onclick="addManualEntry()">Add</button>
+            </div>
+        </div>
+
+        <!-- Food Log -->
+        <div class="food-log-section">
+            <div class="log-header-row">
+                <h5 class="section-label">📋 Today's Food Log</h5>
+                <button class="clear-log-btn" onclick="clearLog()">🗑 Clear All</button>
+            </div>
+            <div id="foodLogList">
+                <div class="empty-log">No meals logged yet. Upload a food photo or add manually above!</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ===================== STYLES ===================== -->
 <style>
+    /* ---- DIET SNAP ---- */
     .ai-container { max-width: 680px; margin: 2rem auto; padding: 0 1rem; }
     .ai-card { background: rgba(15,23,42,.95); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 2rem; box-shadow: 0 2px 20px rgba(0,0,0,.3); }
     .ai-title { color: #38bdf8; font-size: 1.5rem; font-weight: 700; }
@@ -71,33 +231,123 @@
     .macro-value { font-size: 1.4rem; font-weight: 800; color: #1a1a2e; }
     .macro-label { font-size: 0.75rem; color: #374151; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
     .serving-info { font-size: 0.85rem; color: #64748b; margin: 0; }
+    .add-to-log-btn { width: 100%; margin-top: 1rem; background: linear-gradient(135deg, #059669, #34d399); color: white; border: none; border-radius: 10px; padding: 0.7rem; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all .2s; }
+    .add-to-log-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ---- BMI ---- */
+    .bmi-container { max-width: 680px; margin: 0 auto 2rem; padding: 0 1rem; }
+    .bmi-card { background: linear-gradient(145deg, #0d1b2e, #0f2540); border: 1px solid rgba(255,255,255,.08); border-radius: 20px; padding: 2rem; box-shadow: 0 4px 30px rgba(0,0,0,.4); }
+    .bmi-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.75rem; }
+    .bmi-icon { font-size: 2rem; }
+    .bmi-title { color: #38bdf8; font-size: 1.4rem; font-weight: 700; margin: 0; }
+    .bmi-subtitle { color: #94a3b8; font-size: 0.9rem; margin: 0.2rem 0 0; }
+    .bmi-input-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
+    .bmi-field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .bmi-label { color: #94a3b8; font-size: 0.85rem; font-weight: 500; }
+    .bmi-input-wrap { display: flex; align-items: center; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; overflow: hidden; transition: border-color .2s; }
+    .bmi-input-wrap:focus-within { border-color: #38bdf8; }
+    .bmi-input { background: transparent; border: none; outline: none; color: white; font-size: 1.1rem; font-weight: 600; padding: 0.65rem 0.75rem; width: 100%; }
+    .bmi-input::placeholder { color: #475569; font-weight: 400; }
+    .bmi-input::-webkit-inner-spin-button, .bmi-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .bmi-unit { color: #64748b; font-size: 0.8rem; padding-right: 0.75rem; white-space: nowrap; }
+    .bmi-hint { color: #475569; font-size: 0.72rem; }
+    .bmi-gender-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.2rem; }
+    .bmi-gender-btn { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); color: #94a3b8; border-radius: 12px; padding: 0.7rem; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+    .bmi-gender-btn:hover { background: rgba(56,189,248,.08); border-color: rgba(56,189,248,.3); color: #38bdf8; }
+    .bmi-gender-active { background: linear-gradient(135deg, rgba(56,189,248,.18), rgba(99,102,241,.18)) !important; border-color: #38bdf8 !important; color: #38bdf8 !important; }
+    .bmi-error { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3); color: #f87171; border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.9rem; }
+    .bmi-calc-btn { width: 100%; background: linear-gradient(135deg, #1d4ed8, #38bdf8); color: white; border: none; border-radius: 12px; padding: 0.85rem; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all .2s; }
+    .bmi-calc-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(56,189,248,.3); }
+    .bmi-result { margin-top: 1.5rem; animation: fadeIn .4s ease; }
+    @@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    .bmi-result-top { display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 1.25rem; flex-wrap: wrap; }
+    .bmi-result-value-wrap { display: flex; flex-direction: column; align-items: center; background: rgba(56,189,248,.08); border: 1px solid rgba(56,189,248,.2); border-radius: 16px; padding: 1.25rem 1.75rem; min-width: 130px; }
+    .bmi-result-label { color: #94a3b8; font-size: 0.8rem; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 0.3rem; }
+    .bmi-result-value { font-size: 2.8rem; font-weight: 800; color: white; line-height: 1; }
+    .bmi-result-category { font-size: 0.9rem; font-weight: 700; margin-top: 0.4rem; border-radius: 20px; padding: 0.2rem 0.8rem; }
+    .bmi-result-info { flex: 1; display: flex; flex-direction: column; gap: 0.75rem; justify-content: center; }
+    .bmi-info-row { display: flex; justify-content: space-between; align-items: center; padding: 0.55rem 0.9rem; background: rgba(255,255,255,.04); border-radius: 10px; }
+    .bmi-info-label { color: #94a3b8; font-size: 0.85rem; }
+    .bmi-info-val { color: white; font-weight: 700; font-size: 0.9rem; }
+    .bmi-bar-wrap { margin: 0.5rem 0 1rem; }
+    .bmi-bar { display: flex; border-radius: 8px; overflow: hidden; height: 32px; }
+    .bmi-bar-segment { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; line-height: 1.2; color: rgba(0,0,0,.7); }
+    .bmi-seg-under { background: #60a5fa; }
+    .bmi-seg-normal { background: #4ade80; }
+    .bmi-seg-over { background: #facc15; }
+    .bmi-seg-obese { background: #f87171; }
+    .bmi-marker-wrap { position: relative; height: 20px; }
+    .bmi-marker { position: absolute; font-size: 1rem; color: white; transform: translateX(-50%); top: 2px; transition: left .4s ease; text-shadow: 0 0 6px rgba(0,0,0,.8); }
+    .bmi-advice { color: #94a3b8; font-size: 0.88rem; line-height: 1.6; margin: 0; padding: 0.9rem; background: rgba(255,255,255,.03); border-radius: 10px; border-left: 3px solid #38bdf8; }
+
+    /* ---- CALORIE COUNTER ---- */
+    .calorie-container { max-width: 680px; margin: 0 auto 3rem; padding: 0 1rem; }
+    .calorie-card { background: linear-gradient(145deg, #0d1b2e, #0f2540); border: 1px solid rgba(255,255,255,.08); border-radius: 20px; padding: 2rem; box-shadow: 0 4px 30px rgba(0,0,0,.4); }
+    .calorie-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
+    .calorie-icon { font-size: 2rem; }
+    .calorie-title { color: #f97316; font-size: 1.4rem; font-weight: 700; margin: 0; }
+    .calorie-subtitle { color: #94a3b8; font-size: 0.9rem; margin: 0.2rem 0 0; }
+    .goal-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
+    .goal-input-wrap { display: flex; align-items: center; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: 10px; overflow: hidden; width: 160px; }
+    .progress-section { margin-bottom: 1.5rem; }
+    .progress-labels { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; }
+    .calorie-progress-bar { height: 14px; background: rgba(255,255,255,.08); border-radius: 999px; overflow: hidden; margin-bottom: 1rem; }
+    .calorie-progress-fill { height: 100%; background: linear-gradient(135deg, #f97316, #fbbf24); border-radius: 999px; transition: width .4s ease; }
+    .macro-summary-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+    .macro-summary-item { text-align: center; background: rgba(255,255,255,.04); border-radius: 10px; padding: 0.6rem; }
+    .macro-summary-value { display: block; color: white; font-size: 1.1rem; font-weight: 700; }
+    .macro-summary-label { color: #64748b; font-size: 0.75rem; text-transform: uppercase; }
+    .section-label { color: #cbd5e1; font-size: 0.95rem; font-weight: 700; margin: 0 0 0.75rem; }
+    .manual-add-section { margin-bottom: 1.5rem; }
+    .manual-add-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .manual-input { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; color: white; padding: 0.5rem 0.75rem; font-size: 0.85rem; outline: none; flex: 1; min-width: 100px; }
+    .manual-input.small { max-width: 90px; flex: 0 0 90px; }
+    .manual-input::placeholder { color: #475569; }
+    .add-manual-btn { background: linear-gradient(135deg, #f97316, #fbbf24); color: white; border: none; border-radius: 8px; padding: 0.5rem 1rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .add-manual-btn:hover { opacity: 0.9; }
+    .food-log-section { }
+    .log-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+    .clear-log-btn { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3); color: #f87171; border-radius: 8px; padding: 0.35rem 0.75rem; font-size: 0.8rem; cursor: pointer; }
+    .clear-log-btn:hover { background: rgba(239,68,68,.2); }
+    .empty-log { color: #475569; text-align: center; padding: 1.5rem; font-size: 0.9rem; }
+    .log-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,.04); border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 0.5rem; }
+    .log-item-name { color: white; font-weight: 600; font-size: 0.9rem; }
+    .log-item-macros { color: #94a3b8; font-size: 0.8rem; margin-top: 0.2rem; }
+    .log-item-calories { color: #f97316; font-weight: 800; font-size: 1rem; white-space: nowrap; margin-left: 1rem; }
+    .log-item-delete { background: none; border: none; color: #475569; cursor: pointer; font-size: 1rem; margin-left: 0.5rem; padding: 0; }
+    .log-item-delete:hover { color: #f87171; }
+
+    @@media (max-width: 600px) {
+        .bmi-input-row { grid-template-columns: 1fr; }
+        .bmi-result-top { flex-direction: column; }
+        .bmi-result-value-wrap { width: 100%; }
+        .manual-add-row { flex-direction: column; }
+        .manual-input.small { max-width: 100%; flex: 1; }
+    }
 </style>
 
+<!-- ===================== SCRIPTS ===================== -->
 <script>
+
+    /* ==================== DIET SNAP ==================== */
+    let lastAnalyzed = null;
+
     function previewAndAnalyze(input) {
         const file = input.files[0];
         if (!file) return;
-
-        if (file.size > 5 * 1024 * 1024) {
-            alert('File too large! Please upload under 5MB.');
-            return;
-        }
-
+        if (file.size > 5 * 1024 * 1024) { alert('File too large! Please upload under 5MB.'); return; }
         document.getElementById('uploadText').textContent = file.name;
-
         const reader = new FileReader();
-        reader.onload = function (e) {
+        reader.onload = e => {
             document.getElementById('foodPreview').src = e.target.result;
             document.getElementById('previewSection').style.display = 'block';
         };
         reader.readAsDataURL(file);
-
         document.getElementById('loadingBox').style.display = 'flex';
         document.getElementById('resultCard').style.display = 'none';
-
+        document.getElementById('addToLogBtn').style.display = 'none';
         const formData = new FormData();
         formData.append('image', file);
-
         fetch('/AI/AnalyzeFood', { method: 'POST', body: formData })
             .then(r => r.json())
             .then(data => {
@@ -109,10 +359,170 @@
                 document.getElementById('fat').textContent = (data.fatG || '0') + 'g';
                 document.getElementById('servingSize').textContent = 'Serving: ' + (data.servingSize || '1 serving');
                 document.getElementById('resultCard').style.display = 'block';
+                document.getElementById('addToLogBtn').style.display = 'block';
+                lastAnalyzed = {
+                    name: data.foodName || 'Food Item',
+                    calories: parseInt(data.calories) || 0,
+                    protein: parseFloat(data.proteinG) || 0,
+                    carbs: parseFloat(data.carbsG) || 0,
+                    fat: parseFloat(data.fatG) || 0
+                };
             })
-            .catch(err => {
+            .catch(() => {
                 document.getElementById('loadingBox').style.display = 'none';
                 alert('Error analyzing food. Please try again.');
             });
     }
+
+    /* ==================== BMI CALCULATOR ==================== */
+    let selectedGender = 'Female';
+
+    function selectGender(gender) {
+        selectedGender = gender;
+        document.getElementById('btnMale').classList.remove('bmi-gender-active');
+        document.getElementById('btnFemale').classList.remove('bmi-gender-active');
+        document.getElementById('btn' + gender).classList.add('bmi-gender-active');
+    }
+
+    function showError(msg) {
+        const el = document.getElementById('bmiError');
+        el.textContent = msg;
+        el.style.display = 'block';
+        document.getElementById('bmiResult').style.display = 'none';
+    }
+
+    function hideError() { document.getElementById('bmiError').style.display = 'none'; }
+
+    function calculateBMI() {
+        hideError();
+        const heightVal = document.getElementById('bmiHeight').value.trim();
+        const weightVal = document.getElementById('bmiWeight').value.trim();
+        const ageVal = document.getElementById('bmiAge').value.trim();
+        const height = parseFloat(heightVal);
+        const weight = parseFloat(weightVal);
+        const age = parseFloat(ageVal);
+        if (heightVal === '' || weightVal === '' || ageVal === '') { showError('Please fill in all fields — Height, Weight, and Age.'); return; }
+        if (isNaN(height) || isNaN(weight) || isNaN(age)) { showError('Please enter valid numeric values.'); return; }
+        if (height < 50 || height > 250) { showError('Height must be between 50 and 250 cm.'); return; }
+        if (weight < 10 || weight > 300) { showError('Weight must be between 10 and 300 kg.'); return; }
+        if (age < 1 || age > 120) { showError('Age must be between 1 and 120 years.'); return; }
+        const heightM = height / 100.0;
+        const bmi = weight / (heightM * heightM);
+        const bmiRounded = Math.round(bmi * 10) / 10;
+        let category, categoryColor, advice;
+        if (bmi < 18.5) { category = 'Underweight'; categoryColor = '#60a5fa'; advice = 'Your BMI suggests you are underweight. Consider a calorie-dense, nutrient-rich diet and consult a nutritionist for a personalised meal plan.'; }
+        else if (bmi < 25) { category = 'Normal Weight'; categoryColor = '#4ade80'; advice = 'Great! Your BMI is in the healthy range. Maintain your current lifestyle with balanced nutrition and regular exercise.'; }
+        else if (bmi < 30) { category = 'Overweight'; categoryColor = '#facc15'; advice = 'Your BMI is slightly above normal. A combination of regular cardio exercise and a balanced diet can help you reach a healthier weight.'; }
+        else { category = 'Obese'; categoryColor = '#f87171'; advice = 'Your BMI indicates obesity. It is recommended to consult a doctor or fitness professional for a structured weight-loss programme.'; }
+        const idealMin = Math.round(18.5 * heightM * heightM * 10) / 10;
+        const idealMax = Math.round(24.9 * heightM * heightM * 10) / 10;
+        let bmr = selectedGender === 'Male' ? (10 * weight) + (6.25 * height) - (5 * age) + 5 : (10 * weight) + (6.25 * height) - (5 * age) - 161;
+        const tdee = Math.round(bmr * 1.375);
+        const markerPct = Math.min(Math.max(((bmi - 10) / 30) * 100, 2), 98);
+        document.getElementById('bmiValue').textContent = bmiRounded;
+        document.getElementById('bmiCategory').textContent = category;
+        document.getElementById('bmiCategory').style.background = categoryColor + '22';
+        document.getElementById('bmiCategory').style.color = categoryColor;
+        document.getElementById('idealWeight').textContent = idealMin + ' – ' + idealMax + ' kg';
+        document.getElementById('dailyCalories').textContent = tdee + ' kcal/day';
+        document.getElementById('genderDisplay').textContent = selectedGender;
+        document.getElementById('bmiAdvice').textContent = advice;
+        document.getElementById('bmiMarker').style.left = markerPct + '%';
+        document.getElementById('bmiResult').style.display = 'block';
+        document.getElementById('bmiResult').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        // Auto-set calorie goal from BMR
+        document.getElementById('calorieGoal').value = tdee;
+        updateProgress();
+    }
+
+    /* ==================== CALORIE COUNTER ==================== */
+    let foodLog = [];
+
+    function addToLog() {
+        if (!lastAnalyzed) return;
+        addEntry(lastAnalyzed.name, lastAnalyzed.calories, lastAnalyzed.protein, lastAnalyzed.carbs, lastAnalyzed.fat);
+        document.getElementById('addToLogBtn').textContent = '✅ Added to Log!';
+        setTimeout(() => { document.getElementById('addToLogBtn').textContent = '➕ Add to Daily Log'; }, 2000);
+    }
+
+    function addManualEntry() {
+        const name = document.getElementById('manualFoodName').value.trim();
+        const cal = parseInt(document.getElementById('manualCalories').value) || 0;
+        const pro = parseFloat(document.getElementById('manualProtein').value) || 0;
+        const carb = parseFloat(document.getElementById('manualCarbs').value) || 0;
+        const fat = parseFloat(document.getElementById('manualFat').value) || 0;
+        if (!name) { alert('Please enter a food name.'); return; }
+        if (cal <= 0) { alert('Please enter calories.'); return; }
+        addEntry(name, cal, pro, carb, fat);
+        document.getElementById('manualFoodName').value = '';
+        document.getElementById('manualCalories').value = '';
+        document.getElementById('manualProtein').value = '';
+        document.getElementById('manualCarbs').value = '';
+        document.getElementById('manualFat').value = '';
+    }
+
+    function addEntry(name, calories, protein, carbs, fat) {
+        const id = Date.now();
+        foodLog.push({ id, name, calories, protein, carbs, fat });
+        renderLog();
+        updateProgress();
+    }
+
+    function deleteEntry(id) {
+        foodLog = foodLog.filter(e => e.id !== id);
+        renderLog();
+        updateProgress();
+    }
+
+    function clearLog() {
+        if (foodLog.length === 0) return;
+        if (confirm('Clear all food entries?')) {
+            foodLog = [];
+            renderLog();
+            updateProgress();
+        }
+    }
+
+    function renderLog() {
+        const list = document.getElementById('foodLogList');
+        if (foodLog.length === 0) {
+            list.innerHTML = '<div class="empty-log">No meals logged yet. Upload a food photo or add manually above!</div>';
+            return;
+        }
+        list.innerHTML = foodLog.map(e => `
+            <div class="log-item">
+                <div>
+                    <div class="log-item-name">${e.name}</div>
+                    <div class="log-item-macros">P: ${e.protein}g &nbsp; C: ${e.carbs}g &nbsp; F: ${e.fat}g</div>
+                </div>
+                <div style="display:flex; align-items:center;">
+                    <span class="log-item-calories">${e.calories} kcal</span>
+                    <button class="log-item-delete" onclick="deleteEntry(${e.id})">🗑</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function updateProgress() {
+        const goal = parseInt(document.getElementById('calorieGoal').value) || 2000;
+        const total = foodLog.reduce((s, e) => s + e.calories, 0);
+        const totalProtein = foodLog.reduce((s, e) => s + e.protein, 0).toFixed(1);
+        const totalCarbs = foodLog.reduce((s, e) => s + e.carbs, 0).toFixed(1);
+        const totalFat = foodLog.reduce((s, e) => s + e.fat, 0).toFixed(1);
+        const pct = Math.min((total / goal) * 100, 100);
+        const remaining = Math.max(goal - total, 0);
+        document.getElementById('consumedLabel').textContent = total + ' kcal consumed';
+        document.getElementById('remainingLabel').textContent = remaining + ' kcal remaining';
+        document.getElementById('progressFill').style.width = pct + '%';
+        document.getElementById('progressFill').style.background = pct >= 100
+            ? 'linear-gradient(135deg, #ef4444, #f87171)'
+            : 'linear-gradient(135deg, #f97316, #fbbf24)';
+        document.getElementById('totalProtein').textContent = totalProtein + 'g';
+        document.getElementById('totalCarbs').textContent = totalCarbs + 'g';
+        document.getElementById('totalFat').textContent = totalFat + 'g';
+    }
+
+    document.getElementById('calorieGoal').addEventListener('input', updateProgress);
+
 </script>
