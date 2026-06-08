@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
+=======
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Features;
+using NexFit.Data;
+>>>>>>> ce0ebeb2d803129b5a51a162bdb8a81f0d6641c1
 using NexFit.Services;
 using NexFit.MLModel;
 
@@ -10,24 +16,49 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
+<<<<<<< HEAD
 // File size limit 50MB
 builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
+=======
+// =========================================
+// FILE SIZE LIMIT
+// =========================================
+
+builder.Services.Configure<FormOptions>(options =>
+>>>>>>> ce0ebeb2d803129b5a51a162bdb8a81f0d6641c1
 {
-    options.MultipartBodyLengthLimit = 50 * 1024 * 1024;
+    options.MultipartBodyLengthLimit =
+        50 * 1024 * 1024;
 });
 
+<<<<<<< HEAD
 // HttpClient with longer timeout
+=======
+// =========================================
+// HTTP CLIENTS
+// =========================================
+
+>>>>>>> ce0ebeb2d803129b5a51a162bdb8a81f0d6641c1
 builder.Services.AddHttpClient<DietSnapService>(client =>
 {
-    client.Timeout = TimeSpan.FromMinutes(5);
+    client.Timeout =
+        TimeSpan.FromMinutes(5);
 });
 
 builder.Services.AddHttpClient<PostureService>(client =>
 {
-    client.Timeout = TimeSpan.FromMinutes(5);
+    client.Timeout =
+        TimeSpan.FromMinutes(5);
 });
 
+<<<<<<< HEAD
 // Mongo Services
+=======
+// =========================================
+// MONGODB SERVICES
+// =========================================
+
+>>>>>>> ce0ebeb2d803129b5a51a162bdb8a81f0d6641c1
 builder.Services.AddSingleton<MongoDbRepository>();
 builder.Services.AddScoped<DashboardService>();
 
@@ -46,6 +77,7 @@ builder.Services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
+<<<<<<< HEAD
         options.Cookie.Name = "NexFit.Auth.Cookie";
         options.LoginPath = "/Auth/Login";
         options.AccessDeniedPath = "/Auth/Login";
@@ -54,6 +86,31 @@ builder.Services
         options.Cookie.HttpOnly = true;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         options.Cookie.SameSite = SameSiteMode.Lax;
+=======
+        options.Cookie.Name =
+            "NexFit.Auth.Cookie";
+
+        options.LoginPath =
+            "/Auth/Login";
+
+        options.AccessDeniedPath =
+            "/Auth/Login";
+
+        options.ExpireTimeSpan =
+            TimeSpan.FromDays(7);
+
+        options.SlidingExpiration =
+            true;
+
+        options.Cookie.HttpOnly =
+            true;
+
+        options.Cookie.SecurePolicy =
+            CookieSecurePolicy.Always;
+
+        options.Cookie.SameSite =
+            SameSiteMode.Lax;
+>>>>>>> ce0ebeb2d803129b5a51a162bdb8a81f0d6641c1
     });
 
 // =========================
@@ -85,13 +142,21 @@ if (args.Contains("--train"))
 
 if (!app.Environment.IsDevelopment())
 {
+<<<<<<< HEAD
     app.UseExceptionHandler("/Home/Error");
+=======
+    app.UseExceptionHandler(
+        "/Home/Error");
+
+>>>>>>> ce0ebeb2d803129b5a51a162bdb8a81f0d6641c1
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

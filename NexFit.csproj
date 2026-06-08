@@ -12,9 +12,13 @@
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.12" />
+<<<<<<< HEAD
     <PackageReference Include="Microsoft.ML" Version="5.0.0" />
     <PackageReference Include="Microsoft.ML.ImageAnalytics" Version="5.0.0" />
     <PackageReference Include="Microsoft.ML.Vision" Version="5.0.0" />
+=======
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.8" />
+>>>>>>> ce0ebeb2d803129b5a51a162bdb8a81f0d6641c1
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="MongoDB.Driver" Version="3.9.0" />
     <PackageReference Include="SciSharp.TensorFlow.Redist" Version="2.16.0" />

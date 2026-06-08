@@ -1,0 +1,398 @@
+﻿@{
+    ViewData["Title"] = "Live Chat";
+    Layout = "_Layout";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+<style>
+    body {
+        background: #0f0f1a;
+    }
+
+    .chat-wrapper {
+        max-width: 850px;
+        margin: 40px auto;
+        padding: 0 15px;
+    }
+
+    .chat-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px 20px 0 0;
+        padding: 20px 30px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+        .chat-header .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .chat-header h4 {
+            color: white;
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .chat-header small {
+            color: rgba(255,255,255,0.75);
+            font-size: 13px;
+        }
+
+    .online-dot {
+        width: 10px;
+        height: 10px;
+        background: #00ff88;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px;
+        animation: pulse 1.5s infinite;
+    }
+
+    @@keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(0,255,136,0.6);
+        }
+
+        70% {
+            box-shadow: 0 0 0 8px rgba(0,255,136,0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(0,255,136,0);
+        }
+    }
+
+    .chat-box {
+        background: #1a1a2e;
+        height: 450px;
+        overflow-y: auto;
+        padding: 25px;
+        border-left: 1px solid #2d2d4e;
+        border-right: 1px solid #2d2d4e;
+        scroll-behavior: smooth;
+    }
+
+        .chat-box::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .chat-box::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+
+        .chat-box::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+    .message-row {
+        display: flex;
+        margin-bottom: 18px;
+        animation: fadeInUp 0.3s ease;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .message-row.sent {
+        justify-content: flex-end;
+    }
+
+    .message-row.received {
+        justify-content: flex-start;
+    }
+
+    .bubble {
+        max-width: 65%;
+        padding: 12px 18px;
+        border-radius: 18px;
+        position: relative;
+        word-wrap: break-word;
+    }
+
+    .sent .bubble {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+
+    .received .bubble {
+        background: #2d2d4e;
+        color: #e0e0ff;
+        border-bottom-left-radius: 4px;
+    }
+
+    .bubble .sender-name {
+        font-size: 11px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .bubble .msg-text {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .bubble .msg-time {
+        font-size: 10px;
+        opacity: 0.6;
+        text-align: right;
+        margin-top: 5px;
+    }
+
+    .msg-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+    }
+
+    .received .msg-avatar {
+        background: linear-gradient(135deg, #f093fb, #f5576c);
+        margin-right: 10px;
+    }
+
+    .sent .msg-avatar {
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        margin-left: 10px;
+        order: 2;
+    }
+
+    .chat-footer {
+        background: #16213e;
+        border-radius: 0 0 20px 20px;
+        padding: 20px 25px;
+        border: 1px solid #2d2d4e;
+        border-top: none;
+    }
+
+    .name-input-row {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+        .name-input-row input {
+            flex: 1;
+            background: #2d2d4e;
+            border: 1px solid #3d3d6e;
+            border-radius: 10px;
+            padding: 10px 15px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+            .name-input-row input:focus {
+                border-color: #667eea;
+            }
+
+            .name-input-row input::placeholder {
+                color: #666699;
+            }
+
+    .message-input-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+        .message-input-row input {
+            flex: 1;
+            background: #2d2d4e;
+            border: 1px solid #3d3d6e;
+            border-radius: 25px;
+            padding: 13px 20px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+            .message-input-row input:focus {
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+            }
+
+            .message-input-row input::placeholder {
+                color: #666699;
+            }
+
+    .send-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(102,126,234,0.5);
+        }
+
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+
+    .status-bar {
+        text-align: center;
+        padding: 8px;
+        font-size: 12px;
+        color: #666699;
+        background: #1a1a2e;
+        border-left: 1px solid #2d2d4e;
+        border-right: 1px solid #2d2d4e;
+    }
+
+        .status-bar.connected {
+            color: #00ff88;
+        }
+
+        .status-bar.disconnected {
+            color: #ff6b6b;
+        }
+
+    .system-msg {
+        text-align: center;
+        margin: 10px 0;
+        font-size: 12px;
+        color: #555588;
+        font-style: italic;
+    }
+</style>
+
+<div class="chat-wrapper">
+
+    <div class="chat-header">
+        <div class="avatar">💬</div>
+        <div>
+            <h4>NexFit Live Chat</h4>
+            <small><span class="online-dot"></span>Member & Trainer Direct Line</small>
+        </div>
+    </div>
+
+    <div class="status-bar" id="statusBar">
+        ⏳ Connecting...
+    </div>
+
+    <div class="chat-box" id="chatBox">
+        <div class="system-msg">💬 Chat started — say something!</div>
+    </div>
+
+    <div class="chat-footer">
+        <div class="name-input-row">
+            <input type="text" id="senderName" placeholder="👤 Your Name (e.g. Laraib)" maxlength="30" />
+            <input type="text" id="receiverLabel" placeholder="🎯 Chatting with (e.g. Trainer Ahmed)" maxlength="30" />
+        </div>
+
+        <div class="message-input-row">
+            <input type="text" id="messageInput"
+                   placeholder="Type a message..."
+                   onkeypress="if(event.key==='Enter') sendMessage()" />
+            <button class="send-btn" onclick="sendMessage()">
+                <i class="fa fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/chatHub")
+    .withAutomaticReconnect()
+    .build();
+
+    connection.onreconnecting(() => {
+    document.getElementById("statusBar").textContent = "⏳ Reconnecting...";
+    document.getElementById("statusBar").className = "status-bar disconnected";
+    });
+
+    connection.onreconnected(() => {
+    document.getElementById("statusBar").textContent = "✅ Connected — Live";
+    document.getElementById("statusBar").className = "status-bar connected";
+    });
+
+    connection.on("ReceiveMessage", function (senderName, message, time) {
+    const myName = document.getElementById("senderName").value.trim();
+    const isSent = senderName === myName;
+    const chatBox = document.getElementById("chatBox");
+
+    const row = document.createElement("div");
+    row.className = `message-row ${isSent ? "sent" : "received"}`;
+
+    row.innerHTML = `
+    <div class="msg-avatar">${isSent ? "🧑" : "🏋️"}</div>
+    <div class="bubble">
+    <div class="sender-name">${senderName}</div>
+    <div class="msg-text">${message}</div>
+    <div class="msg-time">${time}</div>
+    </div>
+    `;
+
+    chatBox.appendChild(row);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    });
+
+    connection.start().then(() => {
+    document.getElementById("statusBar").textContent = "✅ Connected — Live";
+    document.getElementById("statusBar").className = "status-bar connected";
+    }).catch(err => {
+    document.getElementById("statusBar").textContent = "❌ Connection failed";
+    document.getElementById("statusBar").className = "status-bar disconnected";
+    });
+
+    function sendMessage() {
+    const name = document.getElementById("senderName").value.trim();
+    const msg  = document.getElementById("messageInput").value.trim();
+
+    if (!name) { alert("Pehle apna naam likho! 👤"); return; }
+    if (!msg) return;
+
+    connection.invoke("SendMessage", name, msg).catch(err => console.error(err));
+    document.getElementById("messageInput").value = "";
+    }
+
+    // URL se naam automatically fill karo
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlUser = urlParams.get('user');
+    if (urlUser) {
+    document.getElementById("senderName").value = urlUser;
+    }
+</script>
