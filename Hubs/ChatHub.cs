@@ -4,10 +4,21 @@ namespace NexFit.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessage(string senderName, string message)
+        // Jab page khule, user apne room mein join kare
+        public async Task JoinRoom(string roomId)
         {
-            // Dono users ko message bhejo with sender name aur time
-            await Clients.All.SendAsync("ReceiveMessage", senderName, message, DateTime.Now.ToString("hh:mm tt"));
+            await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
+        }
+
+        // Message sirf us room ke logon ko jayega
+        public async Task SendMessage(string roomId, string senderName, string message)
+        {
+            await Clients.Group(roomId).SendAsync(
+                "ReceiveMessage",
+                senderName,
+                message,
+                DateTime.Now.ToString("hh:mm tt")
+            );
         }
     }
 }

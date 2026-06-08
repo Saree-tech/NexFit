@@ -295,6 +295,17 @@
         color: #555588;
         font-style: italic;
     }
+
+    .room-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 20px;
+        padding: 3px 12px;
+        font-size: 11px;
+        color: rgba(255,255,255,0.6);
+        margin-top: 4px;
+    }
 </style>
 
 <div class="chat-wrapper">
@@ -304,6 +315,8 @@
         <div>
             <h4>NexFit Live Chat</h4>
             <small><span class="online-dot"></span>Member & Trainer Direct Line</small>
+            <br />
+            <span class="room-badge" id="roomLabel">🔒 Private Room</span>
         </div>
     </div>
 
@@ -312,7 +325,7 @@
     </div>
 
     <div class="chat-box" id="chatBox">
-        <div class="system-msg">💬 Chat started — say something!</div>
+        <div class="system-msg">🔒 Private chat started — only you and your trainer can see this!</div>
     </div>
 
     <div class="chat-footer">
@@ -334,6 +347,17 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 <script>
+    // URL se roomId aur user naam lo
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomId   = urlParams.get('room') || 'general-room';
+    const urlUser  = urlParams.get('user') || '';
+
+    // Naam aur room label fill karo
+    if (urlUser) {
+    document.getElementById("senderName").value = urlUser;
+    }
+    document.getElementById("roomLabel").textContent = "🔒 Room: " + roomId;
+
     const connection = new signalR.HubConnectionBuilder()
     .withUrl("/chatHub")
     .withAutomaticReconnect()
@@ -347,6 +371,8 @@
     connection.onreconnected(() => {
     document.getElementById("statusBar").textContent = "✅ Connected — Live";
     document.getElementById("statusBar").className = "status-bar connected";
+    // Reconnect hone par dobara room join karo
+    connection.invoke("JoinRoom", roomId).catch(err => console.error(err));
     });
 
     connection.on("ReceiveMessage", function (senderName, message, time) {
@@ -370,9 +396,15 @@
     chatBox.scrollTop = chatBox.scrollHeight;
     });
 
+    // Connection start karo phir room join karo
     connection.start().then(() => {
     document.getElementById("statusBar").textContent = "✅ Connected — Live";
     document.getElementById("statusBar").className = "status-bar connected";
+
+    // Apne private room mein join karo
+    connection.invoke("JoinRoom", roomId)
+    .catch(err => console.error("Room join error:", err));
+
     }).catch(err => {
     document.getElementById("statusBar").textContent = "❌ Connection failed";
     document.getElementById("statusBar").className = "status-bar disconnected";
@@ -385,14 +417,10 @@
     if (!name) { alert("Pehle apna naam likho! 👤"); return; }
     if (!msg) return;
 
-    connection.invoke("SendMessage", name, msg).catch(err => console.error(err));
-    document.getElementById("messageInput").value = "";
-    }
+    // RoomId ke saath message bhejo
+    connection.invoke("SendMessage", roomId, name, msg)
+    .catch(err => console.error(err));
 
-    // URL se naam automatically fill karo
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlUser = urlParams.get('user');
-    if (urlUser) {
-    document.getElementById("senderName").value = urlUser;
+    document.getElementById("messageInput").value = "";
     }
 </script>

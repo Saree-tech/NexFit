@@ -1,80 +1,23 @@
-﻿@using Microsoft.AspNetCore.SignalR.Client
-@using Microsoft.AspNetCore.SignalR
-@inject NavigationManager Navigation
-@implements IAsyncDisposable
+﻿@* GymCapacityMeter - MVC Partial View *@
+<div class="card border-0 rounded-4 p-4 text-center mb-4"
+     style="background: rgba(15,23,42,0.9); border: 1px solid rgba(255,255,255,0.06) !important;">
 
-<div class="card shadow-sm p-4 text-center" style="max-width: 400px; margin: 20px auto; border-radius: 15px;">
-    <h3 class="mb-3 font-weight-bold text-primary">🔴 Live Gym Capacity</h3>
+    <h5 class="fw-bold mb-3" style="color:#93c5fd;">
+        🔴 Live Gym Capacity
+    </h5>
 
-    <div class="progress mb-3" style="height: 30px; border-radius: 20px; background-color: #e9ecef;">
-        <div class="progress-bar progress-bar-striped progress-bar-animated @GetProgressBarColor(currentCapacity)"
+    <div class="progress mb-3"
+         style="height: 28px; border-radius: 20px; background: rgba(255,255,255,0.08);">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+             id="capacityBar"
              role="progressbar"
-             style="width: @currentCapacity%; font-size: 16px; font-weight: bold;"
-             aria-valuenow="@currentCapacity"
-             aria-valuemin0"
-             aria-valuemax="100">
-            @currentCapacity%
+             style="width: 0%; font-size: 14px; font-weight: bold; border-radius: 20px;"
+             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+            0%
         </div>
     </div>
 
-    <p class="lead">
-        Current Status:
-        <span class="badge @GetBadgeColor(currentCapacity) p-2">
-            @GetStatusText(currentCapacity)
-        </span>
+    <p class="mb-0 text-light">
+        Status: <span id="capacityBadge" class="badge bg-success p-2">Loading...</span>
     </p>
 </div>
-
-@code {
-    private HubConnection? hubConnection;
-    private int currentCapacity = 0; // Default capacity initially 0%
-
-    protected override async Task OnInitializedAsync()
-    {
-        // SignalR Hub se connection build karna
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri("/gymHub"))
-            .Build();
-
-        // Backend se jab "ReceiveCapacityUpdate" ka message aaye, to value update karo
-        hubConnection.On<int>("ReceiveCapacityUpdate", (capacity) =>
-        {
-            currentCapacity = capacity;
-            StateHasChanged(); // UI ko refresh karne ke liye
-        });
-
-        // Connection start karna
-        await hubConnection.StartAsync();
-    }
-
-    // Helper functions UI ko range ke hisab se colors dene ke liye
-    private string GetProgressBarColor(int value) => value switch
-    {
-        < 50 => "bg-success",     // Green if uncrowded
-        < 85 => "bg-warning text-dark", // Yellow if getting full
-        _ => "bg-danger"          // Red if extremely full
-    };
-
-    private string GetBadgeColor(int value) => value switch
-    {
-        < 50 => "badge-success bg-success",
-        < 85 => "badge-warning bg-warning text-dark",
-        _ => "badge-danger bg-danger"
-    };
-
-    private string GetStatusText(int value) => value switch
-    {
-        < 50 => "Spacious - Plenty of space!",
-        < 85 => "Moderate - Getting busy.",
-        _ => "Crowded - Avoid if possible!"
-    };
-
-    // Connection ko clean up karna jab page close ho
-    public async ValueTask DisposeAsync()
-    {
-        if (hubConnection is not null)
-        {
-            await hubConnection.DisposeAsync();
-        }
-    }
-}

@@ -73,22 +73,34 @@
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
+
+    .capacity-slider {
+        width: 100%;
+        height: 8px;
+        border-radius: 10px;
+        outline: none;
+        cursor: pointer;
+        accent-color: #667eea;
+        margin: 15px 0;
+    }
 </style>
 
 <div class="container-fluid mt-5 px-4 text-white">
+
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary border-opacity-10 pb-4">
         <div>
             <h1 class="fw-bold text-white mb-1" style="letter-spacing: -0.5px;">NexFit Management Operations Hub</h1>
-            <p class="text-muted mb-0 small text-uppercase tracking-wider" style="letter-spacing: 1px;">Role assignment pipelines and subscription verification nodes</p>
+            <p class="text-muted mb-0 small text-uppercase" style="letter-spacing: 1px;">Role assignment pipelines and subscription verification nodes</p>
         </div>
     </div>
 
     <div class="row g-4 mb-5">
+
         <div class="col-lg-8">
             <div class="card custom-dash-card shadow-lg">
                 <div class="card-header bg-transparent fw-bold border-bottom border-secondary border-opacity-10 py-3 d-flex align-items-center justify-content-between">
                     <span class="text-warning"><i class="bi bi-wallet2 me-2"></i> Pending Membership Fee Invoices</span>
-                    <span class="badge bg-warning text-dark px-2.5 py-1.5 rounded-pill fw-bold small">@requests?.Count Pending</span>
+                    <span class="badge bg-warning text-dark px-3 py-1 rounded-pill fw-bold small">@requests?.Count Pending</span>
                 </div>
                 <div class="card-body p-0">
                     @if (requests == null || requests.Count == 0)
@@ -149,19 +161,152 @@
                 <div class="card-body p-4">
                     <form asp-action="CreateTrainer" method="post">
                         <div class="mb-3">
-                            <label class="form-label small text-muted fw-semibold uppercase tracking-wide">Trainer Full Name</label>
+                            <label class="form-label small text-muted fw-semibold">Trainer Full Name</label>
                             <input type="text" name="fullName" class="form-control form-dark-input shadow-none" placeholder="e.g., Coach Ahmed" required />
                         </div>
                         <div class="mb-4">
-                            <label class="form-label small text-muted fw-semibold uppercase tracking-wide">Corporate Email Contact</label>
+                            <label class="form-label small text-muted fw-semibold">Corporate Email Contact</label>
                             <input type="email" name="email" class="form-control form-dark-input shadow-none" placeholder="trainer@nexfit.com" required />
                         </div>
-                        <button type="submit" class="btn btn-info text-dark fw-bold w-100 py-2.5 rounded-2 shadow-sm transition-all">
+                        <button type="submit" class="btn btn-info text-dark fw-bold w-100 py-2 rounded-2">
                             <i class="bi bi-plus-circle-fill me-2"></i> Inject Trainer Account
                         </button>
                     </form>
                 </div>
             </div>
         </div>
+
     </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-lg-6">
+            <div class="card custom-dash-card shadow-lg">
+                <div class="card-header bg-transparent fw-bold border-bottom border-secondary border-opacity-10 py-3">
+                    <span style="color:#a78bfa;">
+                        <i class="bi bi-activity me-2"></i> Live Gym Capacity Control
+                    </span>
+                </div>
+                <div class="card-body p-4">
+
+                    <div id="capacityNum"
+                         style="font-size: 4rem; font-weight: 800; color: white; text-align: center; margin-bottom: 10px;">
+                        0%
+                    </div>
+
+                    <div style="text-align:center; margin-bottom: 20px;">
+                        <span id="statusBadge"
+                              style="background:rgba(34,197,94,0.15); color:#22c55e; padding: 7px 20px; border-radius: 999px; font-weight: 700; font-size: 15px;">
+                            Spacious ✅
+                        </span>
+                    </div>
+
+                    <input type="range"
+                           id="capacitySlider"
+                           class="capacity-slider"
+                           min="0" max="100" value="0"
+                           oninput="updateDisplay(this.value)" />
+
+                    <div style="display:flex; justify-content:space-between; color:#666699; font-size:13px; margin-bottom:20px;">
+                        <span>0% Empty</span>
+                        <span>50% Half</span>
+                        <span>100% Full</span>
+                    </div>
+
+                    <button onclick="pushCapacity()"
+                            style="width:100%; padding:14px; border-radius:12px; background:linear-gradient(135deg,#667eea,#764ba2); border:none; color:white; font-size:16px; font-weight:700; cursor:pointer;">
+                        🚀 Push Live Update to All Members
+                    </button>
+
+                    <div id="successMsg"
+                         style="display:none; text-align:center; color:#00ff88; margin-top:15px; font-weight:600;">
+                        ✅ Sab members ko real-time update mil gayi!
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card custom-dash-card shadow-lg h-100">
+                <div class="card-header bg-transparent fw-bold border-bottom border-secondary border-opacity-10 py-3">
+                    <span class="text-info">
+                        <i class="bi bi-bar-chart-fill me-2"></i> System Stats
+                    </span>
+                </div>
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4 p-3 rounded-3"
+                         style="background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.15);">
+                        <div>
+                            <div class="text-muted small">Total Approved Members</div>
+                            <div class="fw-bold text-white fs-4">@ViewBag.TotalMembers</div>
+                        </div>
+                        <i class="bi bi-people-fill text-info fs-2"></i>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4 p-3 rounded-3"
+                         style="background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15);">
+                        <div>
+                            <div class="text-muted small">System Status</div>
+                            <div class="fw-bold text-success fs-4">@ViewBag.SystemStatus</div>
+                        </div>
+                        <i class="bi bi-shield-check text-success fs-2"></i>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center p-3 rounded-3"
+                         style="background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.15);">
+                        <div>
+                            <div class="text-muted small">Pending Requests</div>
+                            <div class="fw-bold text-warning fs-4">@requests?.Count</div>
+                        </div>
+                        <i class="bi bi-clock-history text-warning fs-2"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script>
+    function updateDisplay(value) {
+    document.getElementById("capacityNum").textContent = value + "%";
+    const badge = document.getElementById("statusBadge");
+    const v = parseInt(value);
+
+    if (v < 50) {
+    badge.style.background = "rgba(34,197,94,0.15)";
+    badge.style.color = "#22c55e";
+    badge.textContent = "Spacious ✅";
+    } else if (v < 85) {
+    badge.style.background = "rgba(234,179,8,0.15)";
+    badge.style.color = "#eab308";
+    badge.textContent = "Moderate ⚠️";
+    } else {
+    badge.style.background = "rgba(239,68,68,0.15)";
+    badge.style.color = "#ef4444";
+    badge.textContent = "Crowded 🚨";
+    }
+    }
+
+    async function pushCapacity() {
+    const capacity = document.getElementById("capacitySlider").value;
+
+    const response = await fetch('/Admin/UpdateCapacity', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'capacity=' + capacity
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+    const msg = document.getElementById("successMsg");
+    msg.style.display = "block";
+    setTimeout(() => msg.style.display = "none", 3000);
+    }
+    }
+</script>
